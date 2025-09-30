@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserProtectedRoute from "./UserProtectedRoute";
 import Layout from "@/pages/settings/Layout";
 import AccountPage from "@/pages/settings/Account";
+import PrefrencesPage from "@/pages/settings/Prefrences";
 
 const AppRoutes = () => {
   return (
@@ -17,6 +18,7 @@ const AppRoutes = () => {
           <Route path="/" element={<HomePage />} />
           <Route path="/settings" element={<Layout />}>
             <Route path="/settings/account" element={<AccountPage />} />
+            <Route path="/settings/preferences" element={<PrefrencesPage />} />
           </Route>
         </Route>
         //user partner routes

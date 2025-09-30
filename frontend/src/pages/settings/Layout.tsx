@@ -48,7 +48,7 @@ const LayoutBreadcrumb = () => {
   };
 
   return (
-    <Breadcrumb className="pb-4 pl-8">
+    <Breadcrumb className="pb-4 pl-8 border-b  mb-4">
       <BreadcrumbList>
         <BreadcrumbItem>
           <Link to="/">Home</Link>

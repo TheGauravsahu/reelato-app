@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/sidebar";
 import { User2, Settings, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useTheme } from "./theme-provider";
 
 const items = [
   {
@@ -27,12 +28,15 @@ const items = [
 ];
 
 const AppSidebar = () => {
+  const { theme } = useTheme();
+
   return (
     <Sidebar>
       <SidebarHeader>
         <div className="flex gap-1 items-center border-b p-4">
           <img
-            src="/reelato-light.svg"
+            key={theme}
+            src={theme === "light" ? "/reelato-dark.svg" : "/reelato-light.svg"}
             className="h-4 w-4 md:h-6 md:w-6"
             alt="Reelato Logo"
           />
