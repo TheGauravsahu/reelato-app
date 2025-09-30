@@ -104,7 +104,7 @@ export function UserLoginForm() {
               <div className="mt-4 text-center text-sm">
                 Don&apos;t have an account?{" "}
                 <Link
-                  to="/users/register"
+                  to="/user/register"
                   className="underline underline-offset-4"
                 >
                   Register

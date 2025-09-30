@@ -72,6 +72,21 @@ export const useUpdateUser = () => {
   });
 };
 
+export const useDeleteUser = () => {
+  const { logout } = useUserAuthStore();
+
+  return useMutation({
+    mutationFn: async () => {
+      return await apiClient.delete("/auth/users/me");
+    },
+    onSuccess: (res: any) => {
+      logout();
+      toastSuccessMessage(res.message);
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
 export const useRegisterFoodPartner = () => {
   const navigate = useNavigate();
   const setFoodPartner = useFoodParnterAuthStore(

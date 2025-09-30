@@ -22,6 +22,11 @@ router.put(
   authUser,
   authController.updateUser.bind(authController)
 );
+router.delete(
+  "/users/me",
+  authUser,
+  authController.deleteUser.bind(authController)
+);
 
 // food partners authentication
 router.post(

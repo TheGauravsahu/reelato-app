@@ -13,19 +13,36 @@ export class AuthController {
     try {
       const { fullName, email, password } = req.body;
 
-      const isUserAlreadyExists = await userModel.findOne({ email });
-      if (isUserAlreadyExists) {
+      const existingActiveUser = await userModel.findOne({
+        email,
+        isActive: true,
+      });
+      if (existingActiveUser) {
         return next(
           createHttpError(409, "User already exists with this email.")
         );
       }
 
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const user = await userModel.create({
-        fullName,
-        email,
-        password: hashedPassword,
-      });
+      let user = await userModel.findOne({ email, isActive: false });
+      if (user) {
+        user.isActive = true;
+        if (password) {
+          // update password too (in case user provides new one)
+          user.password = await bcrypt.hash(password, 10);
+        }
+        if (fullName) {
+          user.fullName = fullName;
+        }
+        await user.save();
+      } else {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user = await userModel.create({
+          fullName,
+          email,
+          password: hashedPassword,
+          isActive: true,
+        });
+      }
 
       const token = jwt.sign(
         {
@@ -59,7 +76,7 @@ export class AuthController {
     try {
       const { email, password } = req.body;
 
-      const user = await userModel.findOne({ email });
+      const user = await userModel.findOne({ email, isActive: true });
       if (!user) {
         return next(
           createHttpError(409, "User does not exists with this email.")
@@ -131,6 +148,20 @@ export class AuthController {
       });
     } catch (error) {
       next(createHttpError(400, "Failed to update user profile."));
+    }
+  }
+
+  async deleteUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      await userModel.findByIdAndUpdate(req?.user?._id, {
+        isActive: false,
+      });
+      return res.status(200).json({
+        message: "Account deleted successfully.",
+      });
+    } catch (error) {
+      console.log("error deleting user account", error);
+      next(createHttpError(400, "failed to delete your account."));
     }
   }
 

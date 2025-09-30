@@ -21,9 +21,11 @@ const AppRoutes = () => {
             <Route path="/settings/preferences" element={<PrefrencesPage />} />
           </Route>
         </Route>
-        //user partner routes
+
+        //user routes
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/login" element={<LoginUser />} />
+        
         //food partner routes
         <Route
           path="/food-partner/register"

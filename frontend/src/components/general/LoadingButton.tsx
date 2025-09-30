@@ -9,6 +9,13 @@ interface LogingButtonProps {
   loadingText: string;
   children: React.ReactNode;
   type?: "button" | "submit" | "reset";
+  variant?:
+    | "link"
+    | "default"
+    | "destructive"
+    | "outline"
+    | "secondary"
+    | "ghost";
 }
 
 const LoadingButton = ({
@@ -18,9 +25,11 @@ const LoadingButton = ({
   children,
   type = "submit",
   className,
+  variant,
 }: LogingButtonProps) => {
   return (
     <Button
+      variant={variant}
       onClick={onClick}
       disabled={isPending}
       type={type}

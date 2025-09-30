@@ -4,6 +4,7 @@ export interface IUser extends mongoose.Document {
   fullName: string;
   email: string;
   password: string;
+  isActive: boolean;
 }
 
 const userSchema = new mongoose.Schema<IUser>(
@@ -20,6 +21,11 @@ const userSchema = new mongoose.Schema<IUser>(
     },
     password: {
       type: String,
+    },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
   },
   { timestamps: true }
