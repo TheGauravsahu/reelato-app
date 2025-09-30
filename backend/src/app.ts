@@ -5,12 +5,14 @@ import authRouter from "./routes/auth.route";
 import foodRouter from "./routes/food.routes";
 import { globalErrorHandler } from "./middlewares/errorHandler.middleware";
 import config from "./config";
+import { limiter } from "./middlewares/rateLimiter.middleware";
 
 const app = express();
 
+app.use(cors({ origin: config.FRONEND_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: config.FRONEND_URL, credentials: true }));
+app.use(limiter);
 
 app.use("/api/auth", authRouter);
 app.use("/api/foods", foodRouter);

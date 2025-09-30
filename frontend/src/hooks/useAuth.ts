@@ -15,12 +15,12 @@ import { useFoodParnterAuthStore } from "./useFoodPartnerAuthStore";
 
 function toastErrorMessage(msg: string) {
   toast.error(msg || "Something went wrong. Please try again.");
-  console.log("error occured", msg);
+  console.log("error occured: ", msg);
 }
 
 function toastSuccessMessage(msg: string) {
   toast.success(msg || "Sucess");
-  console.log("error occured", msg);
+  console.log("sucess: ", msg);
 }
 
 export const useRegisterUser = () => {

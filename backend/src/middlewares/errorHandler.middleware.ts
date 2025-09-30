@@ -11,5 +11,4 @@ export const globalErrorHandler = async (
     status: "error",
     message: error.message || "Internal Server Error",
   });
-  next();
 };

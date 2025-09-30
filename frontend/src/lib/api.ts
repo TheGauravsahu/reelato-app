@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "sonner";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL + "/api",
@@ -29,3 +30,12 @@ export const apiClient = {
     return data;
   },
 };
+
+// Global error interceptor
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    if (!error.response) toast.error(error.message);
+    return Promise.reject(error);
+  }
+);
