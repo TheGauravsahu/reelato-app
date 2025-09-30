@@ -39,7 +39,10 @@ export async function authUser(
   }
   try {
     const decoded = jwt.verify(token, config.JWT_SECRET);
-    const user = await userModel.findById((decoded as any).id);
+    const user = await userModel.findOne({
+      _id: (decoded as any).id,
+      isActive: true,
+    });
     if (!user) {
       return next(createHttpError(401, "User not found."));
     }

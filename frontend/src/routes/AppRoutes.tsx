@@ -8,6 +8,7 @@ import UserProtectedRoute from "./UserProtectedRoute";
 import Layout from "@/pages/settings/Layout";
 import AccountPage from "@/pages/settings/Account";
 import PrefrencesPage from "@/pages/settings/Prefrences";
+import NotFoundPage from "@/pages/notFound";
 
 const AppRoutes = () => {
   return (
@@ -16,22 +17,21 @@ const AppRoutes = () => {
         //protected routes
         <Route element={<UserProtectedRoute />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/settings" element={<Layout />}>
+          <Route element={<Layout />}>
             <Route path="/settings/account" element={<AccountPage />} />
             <Route path="/settings/preferences" element={<PrefrencesPage />} />
           </Route>
         </Route>
-
         //user routes
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/login" element={<LoginUser />} />
-        
         //food partner routes
         <Route
           path="/food-partner/register"
           element={<RegisterFoodPartner />}
         />
         <Route path="/food-partner/login" element={<LoginFoodPartner />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

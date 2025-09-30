@@ -76,7 +76,9 @@ export class AuthController {
     try {
       const { email, password } = req.body;
 
-      const user = await userModel.findOne({ email, isActive: true });
+      const user = await userModel
+        .findOne({ email, isActive: true })
+        .select("+password");
       if (!user) {
         return next(
           createHttpError(409, "User does not exists with this email.")
@@ -111,8 +113,8 @@ export class AuthController {
         },
       });
     } catch (error) {
-      console.log("error creating user: ", error);
-      next(createHttpError(400, "Failed to register user."));
+      console.log("error logging user: ", error);
+      next(createHttpError(400, "Failed to login user."));
     }
   }
 

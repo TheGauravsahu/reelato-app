@@ -1,10 +1,9 @@
 import { Link } from "react-router-dom";
-import { Home, Compass, Upload, User } from "lucide-react";
+import { Home, Upload, User } from "lucide-react";
 
 const Navbar = () => {
   const items = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Explore", href: "/explore", icon: Compass },
     { name: "Upload", href: "/upload", icon: Upload },
     { name: "Profile", href: "/settings/account", icon: User },
   ];
