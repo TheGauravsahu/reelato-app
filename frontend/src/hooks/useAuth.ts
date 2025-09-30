@@ -9,19 +9,10 @@ import type {
 } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { toast } from "sonner";
 import { useUserAuthStore } from "./useUserAuthStore";
 import { useFoodParnterAuthStore } from "./useFoodPartnerAuthStore";
+import { toastSuccessMessage, toastErrorMessage } from "@/lib/utils";
 
-function toastErrorMessage(msg: string) {
-  toast.error(msg || "Something went wrong. Please try again.");
-  console.log("error occured: ", msg);
-}
-
-function toastSuccessMessage(msg: string) {
-  toast.success(msg || "Sucess");
-  console.log("sucess: ", msg);
-}
 
 export const useRegisterUser = () => {
   const navigate = useNavigate();

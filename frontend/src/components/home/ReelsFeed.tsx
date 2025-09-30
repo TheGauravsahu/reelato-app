@@ -1,7 +1,8 @@
-import { useFoodList } from "@/hooks/useFood";
+import { useFoodList, useLikeVideo, useSaveVideo } from "@/hooks/useFood";
 import type { IFood } from "@/types";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import { Heart, Bookmark } from "lucide-react";
 
 const ReelsFeed = () => {
   const { data: foods } = useFoodList();
@@ -52,6 +53,7 @@ const ReelCard = ({ food }: { food: IFood }) => {
         loop
       />
       <ReelInfo food={food} />
+      <ReelAction food={food} />
     </div>
   );
 };
@@ -67,6 +69,36 @@ const ReelInfo = ({ food }: { food: IFood }) => {
       <div className="leading-tight space-y-0">
         <h3 className="text-xl font-semibold w-fit">{food.name}</h3>
         <h4 className="mt-0 w-fit">{food.description.substring(0, 200)}...</h4>
+      </div>
+    </div>
+  );
+};
+
+const ReelAction = ({ food }: { food: IFood }) => {
+  const { mutate: likeVideo } = useLikeVideo();
+  const { mutate: saveVideo } = useSaveVideo();
+
+  return (
+    <div className="absolute bottom-26 right-0">
+      <div className="flex flex-col items-center space-y-4 p-4">
+        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70">
+          <Heart
+            onClick={() => likeVideo(food._id)}
+            className={`w-6 h-6 ${
+              food.isLiked ? "fill-white text-white" : "text-white"
+            }`}
+          />
+          <span className="text-xs">{food.likesCount}</span>
+        </button>
+        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70">
+          <Bookmark
+            onClick={() => saveVideo(food._id)}
+            className={`w-6 h-6 ${
+              food.isSaved ? "fill-white text-white" : "text-white"
+            }`}
+          />
+          <span className="text-xs">{food.savesCount}</span>
+        </button>
       </div>
     </div>
   );

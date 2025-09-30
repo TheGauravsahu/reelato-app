@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
 
-export interface IFood  extends mongoose.Document {
+export interface IFood extends mongoose.Document {
   name: string;
   videoUrl: string;
   description: string;
   foodPartner: mongoose.Schema.Types.ObjectId;
+  likesCount: number;
+  savesCount: number;
 }
 
 const foodSchema = new mongoose.Schema<IFood>(
@@ -25,6 +27,14 @@ const foodSchema = new mongoose.Schema<IFood>(
       type: mongoose.Schema.Types.ObjectId,
       ref: "food_partners",
       required: true,
+    },
+    likesCount: {
+      type: Number,
+      default: 0,
+    },
+    savesCount: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

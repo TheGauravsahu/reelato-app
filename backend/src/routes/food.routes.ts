@@ -19,4 +19,16 @@ router.get(
   foodController.getFoodItems.bind(foodController) as any
 );
 
+router.post(
+  "/:foodId/like",
+  authUser as any,
+  foodController.likeFood.bind(foodController) as any
+);
+
+router.post(
+  "/:foodId/save",
+  authUser as any,
+  foodController.saveFood.bind(foodController) as any
+);
+
 export default router;
