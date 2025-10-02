@@ -11,7 +11,7 @@ class FoodController {
   constructor() {}
 
   async createFood(req: Request, res: Response, next: NextFunction) {
-    console.log(req);
+    // console.log(req);
     const { name, description } = req.body as IFood;
     const file = req.file;
     if (!file) {

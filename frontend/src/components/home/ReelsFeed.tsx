@@ -54,6 +54,9 @@ export const ReelCard = ({ food }: { food: IFood }) => {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            if (!videoEl.src) {
+              videoEl.src = videoEl.dataset.src || "";
+            }
             videoEl.play();
           } else {
             videoEl.pause();
@@ -75,9 +78,9 @@ export const ReelCard = ({ food }: { food: IFood }) => {
     <div className="h-full w-full snap-start relative  bg-black/20">
       <video
         ref={videoRef}
-        src={food.videoUrl}
+        data-src={food.videoUrl} // 👈 lazy-load
         className="w-full h-full object-cover"
-        autoPlay
+        preload="none"
         loop
         muted
       />
