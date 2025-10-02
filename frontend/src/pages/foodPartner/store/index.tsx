@@ -95,7 +95,7 @@ const FoodPartnerStorePage = () => {
               <DialogContent
                 onOpenAutoFocus={(e) => e.preventDefault()}
                 showCloseButton={false}
-                className="border-none flex items-center justify-center video_dialog"
+                className="border-none shadow-none flex items-center justify-center video_dialog"
               >
                 <div
                   key={food._id}
@@ -106,7 +106,7 @@ const FoodPartnerStorePage = () => {
 
                 <DialogFooter className="absolute top-2 right-2 cursor-pointer">
                   <DialogClose asChild>
-                    <X size={24} />
+                    <X size={24} className="text-white"/>
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>

@@ -77,7 +77,7 @@ const HistoryCard = ({ food }: { food: IFood }) => {
         variant="ghost"
         className="absolute top-1 right-1 bg-black/50 text-white hover:bg-black/70"
       >
-        <X size={20} className="cursor-pointer" />
+        <X size={20} className="cursor-pointer text-white" />
       </LoadingButton>
       <div className="absolute bottom-2 left-2 w-full px-4 flex items-center justify-between bg-black/50 text-white text-xs  py-1 rounded">
         <h2 className="text-xl">{food.name}</h2>

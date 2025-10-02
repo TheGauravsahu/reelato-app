@@ -10,7 +10,7 @@ import {
 
 const AccountPage = () => {
   return (
-    <Card className="max-w-2xl border-none bg-background min-h-[65vh]">
+    <Card className="max-w-2xl border-none  shadow-none bg-background min-h-[65vh]">
       <CardHeader>
         <CardTitle className="text-xl">Change Account Details</CardTitle>
         <CardDescription>Update your account information.</CardDescription>

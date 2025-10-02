@@ -120,7 +120,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
               food.isLiked ? "fill-primary text-primary" : "text-white"
             }`}
           />
-          <span className="text-xs">{food.likesCount}</span>
+          <span className="text-xs text-white">{food.likesCount}</span>
         </button>
         <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 cursor-pointer">
           <Bookmark
@@ -129,7 +129,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
               food.isSaved ? "fill-primary text-primary" : "text-white"
             }`}
           />
-          <span className="text-xs">{food.savesCount}</span>
+          <span className="text-xs  text-white">{food.savesCount}</span>
         </button>
       </div>
     </div>
