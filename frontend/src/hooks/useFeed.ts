@@ -32,12 +32,12 @@ export const useDeleteAllHistory = () => {
   });
 };
 
-export const useDeleteHistoryItem = () => {
+export const useDeleteHistoryItem = (foodId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (foodId: string) => {
-      await apiClient.delete(`/feed/watch-delete/${foodId}`);
+    mutationFn: async () => {
+      await apiClient.delete(`/feed/watch-history/${foodId}`);
     },
     onSuccess: (res: any) => {
       queryClient.invalidateQueries({ queryKey: ["reelato-watch-history"] });
