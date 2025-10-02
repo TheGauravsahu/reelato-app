@@ -5,10 +5,12 @@ import LoginUser from "@/pages/user/LoginUser";
 import RegisterUser from "@/pages/user/RegisterUser";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import UserProtectedRoute from "./UserProtectedRoute";
-import Layout from "@/pages/settings/Layout";
 import AccountPage from "@/pages/settings/Account";
 import PrefrencesPage from "@/pages/settings/Prefrences";
 import NotFoundPage from "@/pages/notFound";
+import FoodPartnerStorePage from "@/pages/foodPartner/store";
+import SettingsLayout from "@/pages/settings/SettingsLayout";
+import { Layout } from "@/components/general/Layout";
 
 const AppRoutes = () => {
   return (
@@ -16,8 +18,15 @@ const AppRoutes = () => {
       <Routes>
         //protected routes
         <Route element={<UserProtectedRoute />}>
-          <Route path="/" element={<HomePage />} />
-          <Route element={<Layout />}>
+          <Route element={<Layout  />}>
+            <Route path="/" element={<HomePage />} />
+            <Route
+              path="/food-partner/:id"
+              element={<FoodPartnerStorePage />}
+            />
+          </Route>
+
+          <Route element={<SettingsLayout />}>
             <Route path="/settings/account" element={<AccountPage />} />
             <Route path="/settings/preferences" element={<PrefrencesPage />} />
           </Route>

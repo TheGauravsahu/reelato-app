@@ -1,13 +1,11 @@
-import Navbar from "@/components/home/navbar";
-import ReelsFeed from "@/components/home/ReelsFeed";
+  import ReelsFeed from "@/components/home/ReelsFeed";
 
-const HomePage = () => {
-  return (
-    <div className="bg-background">
-      <Navbar />
-      <ReelsFeed />
-    </div>
-  );
-};
+  const HomePage = () => {
+    return (
+      <div className="bg-background">
+        <ReelsFeed />
+      </div>
+    );
+  };
 
-export default HomePage;
+  export default HomePage;

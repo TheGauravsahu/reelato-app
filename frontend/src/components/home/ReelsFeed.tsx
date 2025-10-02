@@ -1,27 +1,54 @@
-import { useFoodList, useLikeVideo, useSaveVideo } from "@/hooks/useFood";
+import {
+  useFoodList,
+  useLikeVideo,
+  useSaveVideo,
+  useWatchFood,
+} from "@/hooks/useFood";
 import type { IFood } from "@/types";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Bookmark } from "lucide-react";
 
 const ReelsFeed = () => {
-  const { data: foods } = useFoodList();
+  const { isPending, data: foods } = useFoodList();
+
+  if ((!isPending && !Array.isArray(foods)) || foods?.length === 0) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <h2 className="text-xl font-semibold text-muted-foreground">
+          No videos available
+        </h2>
+      </div>
+    );
+  }
 
   return (
     <div className="bg-background min-h-screen text-foreground scroll-hide overflow-y-scroll snap-y snap-mandatory scroll-smooth h-screen">
       {foods?.map((food) => (
-        <ReelCard key={food._id} food={food} />
+        <div key={food._id} className="h-screen w-full md:w-fit mx-auto">
+          <ReelCard food={food} />
+        </div>
       ))}
     </div>
   );
 };
 
-const ReelCard = ({ food }: { food: IFood }) => {
+export const ReelCard = ({ food }: { food: IFood }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { mutate: watchFood } = useWatchFood();
 
   useEffect(() => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
+
+    const handleTimeUpdate = () => {
+      if (videoEl.currentTime >= videoEl.duration - 0.5) {
+        watchFood(food._id); // mark watched
+        videoEl.removeEventListener("timeupdate", handleTimeUpdate); // fire only once
+      }
+    };
+
+    videoEl.addEventListener("timeupdate", handleTimeUpdate);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -39,18 +66,20 @@ const ReelCard = ({ food }: { food: IFood }) => {
     observer.observe(videoEl);
 
     return () => {
+      videoEl.removeEventListener("timeupdate", handleTimeUpdate);
       observer.unobserve(videoEl);
     };
-  }, []);
+  }, [food._id, watchFood]);
 
   return (
-    <div className="h-screen snap-start relative w-full md:w-fit mx-auto bg-black/20">
+    <div className="h-full w-full snap-start relative  bg-black/20">
       <video
         ref={videoRef}
         src={food.videoUrl}
         className="w-full h-full object-cover"
-        muted
+        autoPlay
         loop
+        muted
       />
       <ReelInfo food={food} />
       <ReelAction food={food} />
@@ -75,13 +104,13 @@ const ReelInfo = ({ food }: { food: IFood }) => {
 };
 
 const ReelAction = ({ food }: { food: IFood }) => {
-  const { mutate: likeVideo } = useLikeVideo();
-  const { mutate: saveVideo } = useSaveVideo();
+  const { mutate: likeVideo } = useLikeVideo(food.foodPartner._id);
+  const { mutate: saveVideo } = useSaveVideo(food.foodPartner._id);
 
   return (
     <div className="absolute bottom-26 right-0">
       <div className="flex flex-col items-center space-y-4 p-4">
-        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70">
+        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 cursor-pointer">
           <Heart
             onClick={() => likeVideo(food._id)}
             className={`w-6 h-6 ${
@@ -90,7 +119,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
           />
           <span className="text-xs">{food.likesCount}</span>
         </button>
-        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70">
+        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 cursor-pointer">
           <Bookmark
             onClick={() => saveVideo(food._id)}
             className={`w-6 h-6 ${

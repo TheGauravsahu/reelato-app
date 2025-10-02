@@ -1,6 +1,7 @@
 import express from "express";
 import { AuthController } from "../controllers/auth.controller";
 import { authFoodPartner, authUser } from "../middlewares/auth.middleware";
+import { watchController } from "../controllers/watch.controller";
 
 const router = express.Router();
 const authController = new AuthController();
@@ -26,6 +27,11 @@ router.delete(
   "/users/me",
   authUser,
   authController.deleteUser.bind(authController)
+);
+router.get(
+  "/users/me/watch-history",
+  authUser,
+  watchController.getWatchHistory.bind(watchController)
 );
 
 // food partners authentication

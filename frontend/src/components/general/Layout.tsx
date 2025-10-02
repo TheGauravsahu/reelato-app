@@ -1,0 +1,13 @@
+import Navbar from "../home/navbar";
+import { Outlet } from "react-router-dom";
+
+export const Layout = () => {
+  return (
+    <div className="min-h-screen bg-background">
+      <Navbar />
+      <div>
+        <Outlet />
+      </div>
+    </div>
+  );
+};

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import React from "react";
 
-const Layout = () => {
+const SettingsLayout = () => {
   return (
     <SidebarProvider>
       <div className="w-full min-h-screen gap-2">
@@ -77,4 +77,4 @@ const LayoutBreadcrumb = () => {
   );
 };
 
-export default Layout;
+export default SettingsLayout;

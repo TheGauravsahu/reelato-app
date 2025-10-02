@@ -5,6 +5,7 @@ import { v4 as uuid } from "uuid";
 import { uploadFile } from "../services/storage.service";
 import { likeModel } from "../models/like.model";
 import { saveModel } from "../models/save.model";
+import { watchModel } from "../models/watch.model";
 
 export class FoodController {
   constructor() {}
@@ -45,24 +46,37 @@ export class FoodController {
         .populate("foodPartner", "fullName")
         .lean();
 
-      const foods = await Promise.all(
-        foodItems.map(async (food: IFood) => {
-          const isLiked = await likeModel.findOne({
-            foodId: food._id,
-            userId,
-          });
-          const isSaved = await saveModel.findOne({
-            foodId: food._id,
-            userId,
-          });
+      if (!foodItems.length) {
+        return res.status(200).json({
+          message: "No foods found.",
+          data: [],
+        });
+      }
 
-          return {
-            ...food,
-            isLiked: !!isLiked,
-            isSaved: !!isSaved,
-          };
-        })
-      );
+      const [likes, saves, watched] = await Promise.all([
+        likeModel
+          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .lean(),
+        saveModel
+          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .lean(),
+        watchModel
+          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .lean(),
+      ]);
+
+      const likedSet = new Set(likes.map((l) => String(l.foodId)));
+      const savedSet = new Set(saves.map((s) => String(s.foodId)));
+      const watchedSet = new Set(watched.map((w) => String(w.foodId)));
+
+      const foods = foodItems
+        .filter((f) => !watchedSet.has(String(f._id)))
+        .map((food) => ({
+          ...food,
+          isLiked: likedSet.has(String(food._id)),
+          isSaved: savedSet.has(String(food._id)),
+        }));
+
       return res.status(200).json({
         message: "Food items fetched successfully",
         data: foods,
@@ -153,6 +167,73 @@ export class FoodController {
     } catch (error) {
       console.log("error liking the food", error);
       next(createHttpError(400, "error liking the food post"));
+    }
+  }
+
+  async getSavedFood(req: Request, res: Response, next: NextFunction) {
+    try {
+      const savedFoods = await saveModel
+        .find({
+          userId: req?.user?._id,
+        })
+        .populate("food");
+      if (!savedFoods || savedFoods.length === 0) {
+        return res.status(404).json({ message: "No saved foods found" });
+      }
+      return res.status(200).json({
+        message: "Saved foods retrieved successfully",
+        data: savedFoods,
+      });
+    } catch (error) {
+      console.log("error fetching saved foods.");
+      next(createHttpError(400, "failed to fetch saved food."));
+    }
+  }
+
+  async getPartnerFoods(req: Request, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    const userId = req?.user?._id;
+
+    try {
+      const foodItems = await foodModel
+        .find({ foodPartner: id })
+        .populate("foodPartner", "fullName phone address")
+        .lean();
+
+      // console.log(foodItems)
+
+      if (!foodItems.length) {
+        return res.status(200).json({
+          message: "No foods found for this partner",
+          data: [],
+        });
+      }
+
+      const [likes, saves] = await Promise.all([
+        likeModel
+          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .lean(),
+        saveModel
+          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .lean(),
+      ]);
+
+      const likedSet = new Set(likes.map((l) => String(l.foodId)));
+      const savedSet = new Set(saves.map((s) => String(s.foodId)));
+
+      const foods = foodItems.map((food) => ({
+        ...food,
+        isLiked: likedSet.has(String(food._id)),
+        isSaved: savedSet.has(String(food._id)),
+      }));
+
+      res.status(200).json({
+        message: "Food partner foods retrieved successfully",
+        data: foods,
+      });
+    } catch (error) {
+      console.log("error fetching foods items of food partner", error);
+      next(createHttpError(400, "Failed to fetch foods of food partner."));
     }
   }
 }

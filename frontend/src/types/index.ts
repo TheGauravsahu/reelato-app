@@ -15,6 +15,25 @@ export interface IFood {
   updatedAt: string;
 }
 
+export interface IFoodWithFoodPartner {
+  _id: string;
+  name: string;
+  videoUrl: string;
+  description: string;
+  foodPartner: {
+    _id: string;
+    fullName: string;
+    phone: string;
+    address: string;
+  };
+  likesCount: number;
+  savesCount: number;
+  isLiked?: boolean;
+  isSaved?: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IUser {
   _id: string;
   fullName: string;

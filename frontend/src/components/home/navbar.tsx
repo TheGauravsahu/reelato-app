@@ -9,7 +9,7 @@ const Navbar = () => {
   ];
   return (
     <div
-      className="bg-secondary rounded-full w-[80vw] h-12  fixed md:top-4 top-8 left-1/2 -translate-x-1/2
+      className="bg-secondary rounded-full w-[90vw] md:w-[80vw] h-12  fixed md:top-4 top-8 left-1/2 -translate-x-1/2
      text-foreground px-6 md:px-10 flex justify-between items-center z-10"
     >
       <div className="flex gap-1 items-center">
