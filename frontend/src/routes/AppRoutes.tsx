@@ -11,6 +11,7 @@ import NotFoundPage from "@/pages/notFound";
 import FoodPartnerStorePage from "@/pages/foodPartner/store";
 import SettingsLayout from "@/pages/settings/SettingsLayout";
 import { Layout } from "@/components/general/Layout";
+import HistoryPage from "@/pages/feed/history";
 
 const AppRoutes = () => {
   return (
@@ -18,7 +19,7 @@ const AppRoutes = () => {
       <Routes>
         //protected routes
         <Route element={<UserProtectedRoute />}>
-          <Route element={<Layout  />}>
+          <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
             <Route
               path="/food-partner/:id"
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           <Route element={<SettingsLayout />}>
             <Route path="/settings/account" element={<AccountPage />} />
             <Route path="/settings/preferences" element={<PrefrencesPage />} />
+            <Route path="/feed/history" element={<HistoryPage />} />
           </Route>
         </Route>
         //user routes

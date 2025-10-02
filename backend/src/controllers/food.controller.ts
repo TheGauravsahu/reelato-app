@@ -61,7 +61,11 @@ export class FoodController {
           .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
           .lean(),
         watchModel
-          .find({ userId, foodId: { $in: foodItems.map((f) => f._id) } })
+          .find({
+            userId,
+            foodId: { $in: foodItems.map((f) => f._id) },
+            isVisible: true,
+          })
           .lean(),
       ]);
 

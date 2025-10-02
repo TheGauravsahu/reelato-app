@@ -2,7 +2,7 @@
 import { apiClient } from "@/lib/api";
 import type { IFood, IFoodWithFoodPartner, ILike, ISave } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { toastErrorMessage } from "@/lib/utils";
+import { toastErrorMessage, toastSuccessMessage } from "@/lib/utils";
 
 export const useFoodList = () => {
   return useQuery({
@@ -82,10 +82,10 @@ export const useSaveVideo = (foodPartnerId: string) => {
 
   return useMutation({
     mutationFn: async (foodId: string) => {
-      const res = await apiClient.post<{ data: ISave }>(
+      const res = await apiClient.post<{ message: string; data: ISave }>(
         `/foods/${foodId}/save`
       );
-      return res.data;
+      return res;
     },
     onMutate: async (foodId: string) => {
       const partnerKey = ["reelato-foodList", foodPartnerId];
@@ -125,6 +125,9 @@ export const useSaveVideo = (foodPartnerId: string) => {
       }
 
       return { prevGlobalData, prevPartnerData };
+    },
+    onSuccess: (res) => {
+      toastSuccessMessage(res.message);
     },
     onError: (error: any, _foodId, context: any) => {
       const partnerKey = ["reelato-foodList", foodPartnerId];

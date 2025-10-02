@@ -4,6 +4,7 @@ interface IWatch extends mongoose.Document {
   userId: mongoose.Schema.Types.ObjectId;
   foodId: mongoose.Schema.Types.ObjectId;
   watchedAt: Date;
+  isVisible: boolean;
 }
 
 const watchSchema = new mongoose.Schema<IWatch>(
@@ -19,6 +20,10 @@ const watchSchema = new mongoose.Schema<IWatch>(
       required: true,
     },
     watchedAt: { type: Date, default: Date.now },
+    isVisible: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

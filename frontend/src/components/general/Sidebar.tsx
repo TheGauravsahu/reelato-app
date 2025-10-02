@@ -5,11 +5,26 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { User2, Settings, Shield } from "lucide-react";
+import { User2, Settings, History, Bookmark, Heart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "./theme-provider";
 
 const items = [
+  {
+    name: "History",
+    href: "/feed/history",
+    icon: History,
+  },
+  {
+    name: "Saved",
+    href: "/feed/saved",
+    icon: Bookmark,
+  },
+  {
+    name: "Liked",
+    href: "/feed/liked",
+    icon: Heart,
+  },
   {
     name: "Account",
     href: "/settings/account",
@@ -19,11 +34,6 @@ const items = [
     name: "Preferences",
     href: "/settings/preferences",
     icon: Settings,
-  },
-  {
-    name: "Security",
-    href: "/settings/security",
-    icon: Shield,
   },
 ];
 

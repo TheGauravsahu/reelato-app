@@ -69,3 +69,12 @@ export interface ISave {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IWatchHistory {
+  _id: string;
+  foodId: IFood;
+  watchedAt: Date;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
