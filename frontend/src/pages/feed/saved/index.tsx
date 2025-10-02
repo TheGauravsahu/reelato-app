@@ -22,7 +22,7 @@ const SavedPage = () => {
   if (!isPending && data.length === 0) {
     return (
       <div className="flex items-center justify-center">
-        <span className="text-muted-foreground">No save video.</span>
+        <span className="text-muted-foreground">No saved video.</span>
       </div>
     );
   }

@@ -55,5 +55,6 @@ export const useSavedList = () => {
       return res.data;
     },
     refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000, // 2 minutes
   });
 };

@@ -17,7 +17,7 @@ app.use(cookieParser());
 app.use(limiter);
 
 app.use("/api/auth", authRouter);
-app.use("/api/foods", authUser, foodRouter);
+app.use("/api/foods", foodRouter);
 app.use("/api/feed/", authUser, feedRouter);
 
 app.use(globalErrorHandler);
