@@ -127,6 +127,7 @@ export const useSaveVideo = (foodPartnerId: string) => {
       return { prevGlobalData, prevPartnerData };
     },
     onSuccess: (res) => {
+      queryClient.invalidateQueries({ queryKey: ["reelato-saved-foods"] });
       toastSuccessMessage(res.message);
     },
     onError: (error: any, _foodId, context: any) => {

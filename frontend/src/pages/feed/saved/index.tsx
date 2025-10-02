@@ -3,6 +3,7 @@ import LoadingButton from "@/components/general/LoadingButton";
 import { useSavedList } from "@/hooks/useFeed";
 import { useSaveVideo } from "@/hooks/useFood";
 import type { IFood } from "@/types";
+import { X } from "lucide-react";
 
 const SavedPage = () => {
   const { isPending, isError, data } = useSavedList();
@@ -52,16 +53,17 @@ const SavedVideoCard = ({ food }: { food: IFood }) => {
         preload="metadata"
         className="w-full h-full object-cover "
       />
-
-      <div className="absolute bottom-2 left-2 w-full px-4 flex items-center justify-between bg-black/50 text-white text-xs  py-1 rounded">
+      <LoadingButton
+        isPending={isPending}
+        onClick={() => unsaveFood(food._id)}
+        loadingText="Removing"
+        variant="ghost"
+        className="absolute top-1 right-1 bg-black/50 text-white hover:bg-black/70"
+      >
+        <X size={20} className="cursor-pointer text-white" />
+      </LoadingButton>
+      <div className="absolute bottom-2 left-2 w-full px-4  bg-black/50 text-white text-xs  py-1 rounded">
         <h2 className="text-xl">{food.name}</h2>
-        <LoadingButton
-          onClick={() => unsaveFood(food._id)}
-          isPending={isPending}
-          loadingText="Unsaving"
-        >
-          Usave
-        </LoadingButton>
       </div>
     </div>
   );
