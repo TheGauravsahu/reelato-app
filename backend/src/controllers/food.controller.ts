@@ -7,7 +7,7 @@ import { likeModel } from "../models/like.model";
 import { saveModel } from "../models/save.model";
 import { watchModel } from "../models/watch.model";
 
-export class FoodController {
+class FoodController {
   constructor() {}
 
   async createFood(req: Request, res: Response, next: NextFunction) {
@@ -175,14 +175,20 @@ export class FoodController {
   }
 
   async getSavedFood(req: Request, res: Response, next: NextFunction) {
+    const userId = req?.user?._id;
     try {
       const savedFoods = await saveModel
         .find({
-          userId: req?.user?._id,
+          userId,
         })
-        .populate("food");
+        .populate({
+          path: "foodId",
+          populate: { path: "foodPartner", select: "fullName _id" },
+        });
       if (!savedFoods || savedFoods.length === 0) {
-        return res.status(404).json({ message: "No saved foods found" });
+        return res
+          .status(200)
+          .json({ message: "No saved foods found", data: [] });
       }
       return res.status(200).json({
         message: "Saved foods retrieved successfully",
@@ -241,3 +247,5 @@ export class FoodController {
     }
   }
 }
+
+export const foodController = new FoodController();

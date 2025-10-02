@@ -78,3 +78,11 @@ export interface IWatchHistory {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ISavedHistory {
+  _id: string;
+  foodId: IFood;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}

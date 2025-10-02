@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "@/lib/api";
 import { toastErrorMessage, toastSuccessMessage } from "@/lib/utils";
-import type { IWatchHistory } from "@/types";
+import type { ISavedHistory, IWatchHistory } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useHistoryList = () => {
@@ -44,5 +44,16 @@ export const useDeleteHistoryItem = (foodId: string) => {
       toastSuccessMessage(res.message);
     },
     onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useSavedList = () => {
+  return useQuery({
+    queryKey: ["reelato-saved-foods"],
+    queryFn: async () => {
+      const res = await apiClient.get<{ data: ISavedHistory[] }>("/feed/saved");
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
   });
 };

@@ -114,7 +114,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
           <Heart
             onClick={() => likeVideo(food._id)}
             className={`w-6 h-6 ${
-              food.isLiked ? "fill-white text-white" : "text-white"
+              food.isLiked ? "fill-primary text-primary" : "text-white"
             }`}
           />
           <span className="text-xs">{food.likesCount}</span>
@@ -123,7 +123,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
           <Bookmark
             onClick={() => saveVideo(food._id)}
             className={`w-6 h-6 ${
-              food.isSaved ? "fill-white text-white" : "text-white"
+              food.isSaved ? "fill-primary text-primary" : "text-white"
             }`}
           />
           <span className="text-xs">{food.savesCount}</span>

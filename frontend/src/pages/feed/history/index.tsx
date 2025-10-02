@@ -34,7 +34,7 @@ const HistoryPage = () => {
     );
   }
   return (
-    <div className="w-full">
+    <div className="w-full pt-3 md:pt-0 md:px-0 px-4">
       <div className="w-full flex items-center justify-between">
         <h1 className="text-2xl font-bold">Watch History</h1>
         <LoadingButton
@@ -46,7 +46,7 @@ const HistoryPage = () => {
         </LoadingButton>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4  pt-4">
+      <div className="flex items-center justify-center md:justify-normal  flex-wrap gap-2 md:gap-4 pt-12 md:pt-4">
         {data?.map((f) => {
           return <HistoryCard food={f.foodId} key={f._id} />;
         })}

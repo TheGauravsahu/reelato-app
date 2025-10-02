@@ -1,11 +1,10 @@
 import express from "express";
-import { FoodController } from "../controllers/food.controller";
+import { foodController } from "../controllers/food.controller";
 import { authFoodPartner, authUser } from "../middlewares/auth.middleware";
 import { uplaod } from "../middlewares/multer.middelware";
 import { watchController } from "../controllers/watch.controller";
 
 const router = express.Router();
-const foodController = new FoodController();
 
 router.post(
   "/",

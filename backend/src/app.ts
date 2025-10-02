@@ -3,10 +3,11 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import authRouter from "./routes/auth.route";
 import foodRouter from "./routes/food.routes";
-import feedRouter from "./routes/feed.route"
+import feedRouter from "./routes/feed.route";
 import { globalErrorHandler } from "./middlewares/errorHandler.middleware";
 import config from "./config";
 import { limiter } from "./middlewares/rateLimiter.middleware";
+import { authUser } from "./middlewares/auth.middleware";
 
 const app = express();
 
@@ -16,8 +17,8 @@ app.use(cookieParser());
 app.use(limiter);
 
 app.use("/api/auth", authRouter);
-app.use("/api/foods", foodRouter);
-app.use("/api/feed/", feedRouter);
+app.use("/api/foods", authUser, foodRouter);
+app.use("/api/feed/", authUser, feedRouter);
 
 app.use(globalErrorHandler);
 
