@@ -8,6 +8,7 @@ import type { IFood } from "@/types";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Heart, Bookmark } from "lucide-react";
+import AddToPlaylistDialog from "./AddToPlaylistDialog";
 
 const ReelsFeed = () => {
   const { isPending, data: foods } = useFoodList();
@@ -131,6 +132,7 @@ const ReelAction = ({ food }: { food: IFood }) => {
           />
           <span className="text-xs  text-white">{food.savesCount}</span>
         </button>
+        <AddToPlaylistDialog foodId={food._id} />
       </div>
     </div>
   );

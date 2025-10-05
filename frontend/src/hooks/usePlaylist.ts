@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "@/lib/api";
-import { toastSuccessMessage } from "@/lib/utils";
+import { toastErrorMessage, toastSuccessMessage } from "@/lib/utils";
 import { type IPlaylist } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -39,7 +39,7 @@ export const useAddToPlaylist = () => {
       playlistId: string;
       foodId: string;
     }) => {
-      return await apiClient.post<{ data: IPlaylist }>(
+      return await apiClient.put<{ data: IPlaylist }>(
         `/playlists/${playlistId}/add`,
         {
           foodId,
@@ -47,7 +47,10 @@ export const useAddToPlaylist = () => {
       );
     },
     onSuccess: (res: any) => toastSuccessMessage(res.message),
-    onError: (error: any) => toastSuccessMessage(error.response.message),
+    onError: (error: any) => {
+      console.log(error);
+      toastErrorMessage(error.response.data.message);
+    },
   });
 };
 
@@ -64,7 +67,7 @@ export const useCreatePlaylist = () => {
       toastSuccessMessage(res.message);
       queryClient.invalidateQueries({ queryKey: ["reelato-playlists"] });
     },
-    onError: (error: any) => toastSuccessMessage(error.response.message),
+    onError: (error: any) => toastSuccessMessage(error.response.data.message),
   });
 };
 
@@ -81,7 +84,7 @@ export const useDeletePlaylist = () => {
       toastSuccessMessage(res.message);
       queryClient.invalidateQueries({ queryKey: ["reelato-playlists"] });
     },
-    onError: (error: any) => toastSuccessMessage(error.response.message),
+    onError: (error: any) => toastSuccessMessage(error.response.data.message),
   });
 };
 
@@ -112,6 +115,6 @@ export const useEditPlaylist = () => {
         queryKey: ["reelato-playlist", res.data._id],
       });
     },
-    onError: (error: any) => toastSuccessMessage(error.response.message),
+    onError: (error: any) => toastSuccessMessage(error.response.data.message),
   });
 };

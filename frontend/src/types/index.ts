@@ -99,7 +99,7 @@ export interface IPlaylist {
   _id: string;
   title: string;
   userId: string;
-  foodIds: string[];
+  foodIds: IFood[];
   isVisible: boolean;
   createdAt: string;
   updatedAt: string;

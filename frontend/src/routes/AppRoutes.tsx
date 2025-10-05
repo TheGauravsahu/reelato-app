@@ -15,6 +15,7 @@ import HistoryPage from "@/pages/feed/history";
 import SavedPage from "@/pages/feed/saved";
 import LikedPage from "@/pages/feed/liked";
 import PlaylistsPage from "@/pages/feed/playlists";
+import PlaylistDetailsPage from "@/pages/feed/playlists/PlaylistDetails";
 
 const AppRoutes = () => {
   return (
@@ -37,6 +38,10 @@ const AppRoutes = () => {
             <Route path="/feed/saved" element={<SavedPage />} />
             <Route path="/feed/liked" element={<LikedPage />} />
             <Route path="/feed/playlists" element={<PlaylistsPage />} />
+            <Route
+              path="/feed/playlists/:id"
+              element={<PlaylistDetailsPage />}
+            />
           </Route>
         </Route>
         //user routes

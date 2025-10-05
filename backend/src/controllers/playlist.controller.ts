@@ -56,7 +56,11 @@ class PlaylistController {
 
       const playlist = await playlistModel
         .findOne({ _id: playlistId, userId, isVisible: true })
-        .populate("foodIds");
+        .populate({
+          path: "foodIds",
+          populate: { path: "foodPartner", select: "fullName" },
+        })
+        .lean();
       if (!playlist) {
         return next(createHttpError(404, "Playlist not found"));
       }

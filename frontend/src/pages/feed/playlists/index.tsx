@@ -84,7 +84,7 @@ const PlaylistCard = ({ playlist }: { playlist: IPlaylist }) => {
       <div className="px-2 py-1 flex justify-between items-center">
         <h2 className="mb-1">{playlist.title}</h2>
         <Link
-          to={"/feed/playlists/"}
+          to={"/feed/playlists/" + playlist._id}
           className={buttonVariants({ variant: "secondary" })}
         >
           View full playlist
