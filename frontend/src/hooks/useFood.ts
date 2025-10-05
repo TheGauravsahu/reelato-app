@@ -61,6 +61,9 @@ export const useLikeVideo = (foodPartnerId: string) => {
 
       return { prevGlobalData, prevPartnerData };
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["reelato-liked-foods"] });
+    },
     onError: (error: any, _foodId, context: any) => {
       console.log("error liking the food video", error);
       const partnerKey = ["reelato-foodList", foodPartnerId];

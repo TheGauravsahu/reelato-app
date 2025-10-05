@@ -4,6 +4,7 @@ import cors from "cors";
 import authRouter from "./routes/auth.route";
 import foodRouter from "./routes/food.routes";
 import feedRouter from "./routes/feed.route";
+import playlistRouter from "./routes/playlist.route";
 import { globalErrorHandler } from "./middlewares/errorHandler.middleware";
 import config from "./config";
 import { limiter } from "./middlewares/rateLimiter.middleware";
@@ -18,7 +19,8 @@ app.use(limiter);
 
 app.use("/api/auth", authRouter);
 app.use("/api/foods", foodRouter);
-app.use("/api/feed/", authUser, feedRouter);
+app.use("/api/feed", authUser, feedRouter);
+app.use("/api/playlists", authUser, playlistRouter);
 
 app.use(globalErrorHandler);
 

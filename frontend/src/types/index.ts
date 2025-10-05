@@ -86,3 +86,21 @@ export interface ISavedHistory {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ILikedHistory {
+  _id: string;
+  foodId: IFood;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPlaylist {
+  _id: string;
+  title: string;
+  userId: string;
+  foodIds: string[];
+  isVisible: boolean;
+  createdAt: string;
+  updatedAt: string;
+}

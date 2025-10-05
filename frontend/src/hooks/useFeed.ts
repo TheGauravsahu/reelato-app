@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { apiClient } from "@/lib/api";
 import { toastErrorMessage, toastSuccessMessage } from "@/lib/utils";
-import type { ISavedHistory, IWatchHistory } from "@/types";
+import type { ILikedHistory, ISavedHistory, IWatchHistory } from "@/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useHistoryList = () => {
@@ -52,6 +52,18 @@ export const useSavedList = () => {
     queryKey: ["reelato-saved-foods"],
     queryFn: async () => {
       const res = await apiClient.get<{ data: ISavedHistory[] }>("/feed/saved");
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  });
+};
+
+export const useLikedList = () => {
+  return useQuery({
+    queryKey: ["reelato-liked-foods"],
+    queryFn: async () => {
+      const res = await apiClient.get<{ data: ILikedHistory[] }>("/feed/liked");
       return res.data;
     },
     refetchOnWindowFocus: false,

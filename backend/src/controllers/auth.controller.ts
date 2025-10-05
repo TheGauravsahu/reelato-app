@@ -296,6 +296,34 @@ export class AuthController {
     }
   }
 
+  async updatFoodPartnerProfile(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const id = req?.foodPartner?._id;
+      const { fullName, email } = req.body;
+
+      const foodPartner = await foodPartnerModel.findByIdAndUpdate(id, {
+        fullName,
+        email,
+      });
+
+       return res.status(200).json({
+        message: "Account details updated successfully.",
+        data: {
+          _id: foodPartner?._id,
+          fullName: foodPartner?.fullName,
+          email: foodPartner?.email,
+        },
+      });
+    } catch (error) {
+      console.log("error updating food partner profile: ", error);
+      next(createHttpError(400, "Failed to "));
+    }
+  }
+
   async logoutFoodPartner(req: Request, res: Response, next: NextFunction) {
     try {
       res.clearCookie("token");

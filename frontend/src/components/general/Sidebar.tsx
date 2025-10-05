@@ -5,7 +5,7 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { User2, Settings, History, Bookmark, Heart } from "lucide-react";
+import { User2, Settings, History, Bookmark, Heart, ListMusic } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "./theme-provider";
 
@@ -24,6 +24,11 @@ const items = [
     name: "Liked",
     href: "/feed/liked",
     icon: Heart,
+  },
+  {
+    name: "Playlists",
+    href: "/feed/playlists",
+    icon: ListMusic,
   },
   {
     name: "Account",

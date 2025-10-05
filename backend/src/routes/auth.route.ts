@@ -48,5 +48,10 @@ router.get(
   authFoodPartner,
   authController.getFoodPartnerProfile.bind(authController)
 );
+router.put(
+  "/food-partners/me",
+  authFoodPartner,
+  authController.updatFoodPartnerProfile.bind(authController)
+);
 
 export default router;

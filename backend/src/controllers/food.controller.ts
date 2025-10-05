@@ -174,7 +174,7 @@ class FoodController {
     }
   }
 
-  async getSavedFood(req: Request, res: Response, next: NextFunction) {
+  async getSavedFoods(req: Request, res: Response, next: NextFunction) {
     const userId = req?.user?._id;
     try {
       const savedFoods = await saveModel
@@ -244,6 +244,32 @@ class FoodController {
     } catch (error) {
       console.log("error fetching foods items of food partner", error);
       next(createHttpError(400, "Failed to fetch foods of food partner."));
+    }
+  }
+
+  async getLikedFoods(req: Request, res: Response, next: NextFunction) {
+    try {
+      const userId = req?.user?._id;
+      const likedFoods = await likeModel
+        .find({
+          userId,
+        })
+        .populate({
+          path: "foodId",
+          populate: { path: "foodPartner", select: "fullName _id" },
+        });
+      if (!likedFoods || likedFoods.length === 0) {
+        return res
+          .status(200)
+          .json({ message: "No liked foods found", data: [] });
+      }
+      return res.status(200).json({
+        message: "Liked foods retrieved successfully",
+        data: likedFoods,
+      });
+    } catch (error) {
+      console.log("error fetching liked foods.");
+      next(createHttpError(400, "failed to fetch liked food."));
     }
   }
 }

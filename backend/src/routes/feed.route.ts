@@ -18,6 +18,7 @@ router.delete(
   watchController.deleteHistoryItem.bind(watchController)
 );
 
-router.get("/saved", foodController.getSavedFood.bind(foodController));
+router.get("/saved", foodController.getSavedFoods.bind(foodController));
+router.get("/liked", foodController.getLikedFoods.bind(foodController));
 
 export default router;

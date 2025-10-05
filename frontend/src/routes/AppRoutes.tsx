@@ -13,6 +13,8 @@ import SettingsLayout from "@/pages/settings/SettingsLayout";
 import { Layout } from "@/components/general/Layout";
 import HistoryPage from "@/pages/feed/history";
 import SavedPage from "@/pages/feed/saved";
+import LikedPage from "@/pages/feed/liked";
+import PlaylistsPage from "@/pages/feed/playlists";
 
 const AppRoutes = () => {
   return (
@@ -33,6 +35,8 @@ const AppRoutes = () => {
             <Route path="/settings/preferences" element={<PrefrencesPage />} />
             <Route path="/feed/history" element={<HistoryPage />} />
             <Route path="/feed/saved" element={<SavedPage />} />
+            <Route path="/feed/liked" element={<LikedPage />} />
+            <Route path="/feed/playlists" element={<PlaylistsPage />} />
           </Route>
         </Route>
         //user routes
