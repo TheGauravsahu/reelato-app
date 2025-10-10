@@ -115,6 +115,52 @@ class PlaylistController {
     }
   }
 
+  async deleteFoodFromPlaylist(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const userId = req?.user?._id;
+      const { playlistId, foodId } = req.params;
+
+      if (!mongoose.Types.ObjectId.isValid(playlistId)) {
+        return next(createHttpError(400, "Invalid playlist ID"));
+      }
+
+      if (!mongoose.Types.ObjectId.isValid(foodId)) {
+        return next(createHttpError(400, "Invalid food ID"));
+      }
+
+      const playlist = await playlistModel.findOne({
+        _id: playlistId,
+        userId,
+        isVisible: true,
+      });
+      if (!playlist) {
+        return next(createHttpError(404, "Playlist not found"));
+      }
+
+      const foodIndex = playlist.foodIds.findIndex(
+        (id) => id.toString() === foodId
+      );
+
+      if (foodIndex === -1) {
+        return next(createHttpError(404, "Food not found in playlist"));
+      }
+
+      playlist.foodIds.splice(foodIndex, 1);
+      await playlist.save();
+      return res.status(200).json({
+        message: "Food removed from playlist successfully",
+        data: playlist,
+      });
+    } catch (error) {
+      console.log("error deleting food from playlist", error);
+      next(createHttpError(400, "falied to delete food from playlist"));
+    }
+  }
+
   async editPlaylist(req: Request, res: Response, next: NextFunction) {
     try {
       const { playlistId } = req.params;

@@ -31,6 +31,8 @@ export const usePlaylist = (playlistId: string) => {
 };
 
 export const useAddToPlaylist = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async ({
       playlistId,
@@ -46,11 +48,47 @@ export const useAddToPlaylist = () => {
         }
       );
     },
-    onSuccess: (res: any) => toastSuccessMessage(res.message),
+    onSuccess: (res: any) => {
+      toastSuccessMessage(res.message);
+      queryClient.invalidateQueries({
+        queryKey: ["reelato-playlist", res.data._id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reelato-playlists"],
+      });
+    },
     onError: (error: any) => {
       console.log(error);
       toastErrorMessage(error.response.data.message);
     },
+  });
+};
+
+export const useDeleteFoodFromPlaylist = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      playlistId,
+      foodId,
+    }: {
+      playlistId: string;
+      foodId: string;
+    }) => {
+      return await apiClient.delete<{ data: IPlaylist }>(
+        `/playlists/${playlistId}/${foodId}`
+      );
+    },
+    onSuccess: (res: any) => {
+      toastSuccessMessage(res.message);
+      queryClient.invalidateQueries({
+        queryKey: ["reelato-playlist", res.data._id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["reelato-playlists"],
+      });
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
   });
 };
 
