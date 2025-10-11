@@ -6,7 +6,7 @@ export default {
   PORT: Number(process.env.PORT) || 3000,
   NODE_ENV: process.env.NODE_ENV || "development",
   DATABASE_URL:
-    process.env.DATABASE_URL || "mongodb://localhost:27017/reelato_db",
+    process.env.DATABASE_URL || "",
   JWT_SECRET: process.env.JWT_SECRET || "your_jwt_secret_key",
   IMAGEKIT_PUBLIC_KEY: process.env.IMAGEKIT_PUBLIC_KEY || "",
   IMAGEKIT_PRIVATE_KEY: process.env.IMAGEKIT_PRIVATE_KEY || "",
