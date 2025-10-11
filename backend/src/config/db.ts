@@ -3,7 +3,9 @@ import config from ".";
 
 export default async function connectDB() {
   try {
-    await mongoose.connect(config.DATABASE_URL);
+    await mongoose.connect(config.DATABASE_URL, {
+      serverSelectionTimeoutMS: 10000,
+    });
     console.log("Database connected successfully");
   } catch (error) {
     console.error("Database connection error:", error);
