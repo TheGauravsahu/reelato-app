@@ -1,4 +1,4 @@
-import rateLimit from "express-rate-limit";
+import rateLimit, { ipKeyGenerator } from "express-rate-limit";
 import config from "../config";
 
 export const limiter = rateLimit({
@@ -15,10 +15,6 @@ export const limiter = rateLimit({
     });
   },
   keyGenerator: (req, res) => {
-    return (
-      (req.headers["x-forwarded-for"] as string) ||
-      req.ip ||
-      ""
-    ).toString();
+    return ipKeyGenerator(req.ip || "unknown");
   },
 });

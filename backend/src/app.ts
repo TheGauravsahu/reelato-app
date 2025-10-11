@@ -15,6 +15,7 @@ const app = express();
 app.use(cors({ origin: config.FRONEND_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.set("trust proxy", 1);
 app.use(limiter);
 
 app.use("/api/auth", authRouter);
