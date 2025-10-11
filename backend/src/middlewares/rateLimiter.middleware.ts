@@ -8,10 +8,17 @@ export const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 50,
   handler: (req, res) => {
-     return res.status(429).json({
+    return res.status(429).json({
       status: "error",
       message: "Too many requests, please try again later.",
       error: "Too many requests, please try again later.",
     });
+  },
+  keyGenerator: (req, res) => {
+    return (
+      (req.headers["x-forwarded-for"] as string) ||
+      req.ip ||
+      ""
+    ).toString();
   },
 });
