@@ -24,7 +24,7 @@ const ReelsFeed = () => {
   }
 
   return (
-    <div className="bg-background min-h-screen text-foreground scroll-hide overflow-y-scroll snap-y snap-mandatory scroll-smooth h-screen">
+    <div className="bg-background min-h-screen w-full text-foreground scroll-hide overflow-y-scroll snap-y snap-mandatory scroll-smooth h-screen">
       {foods?.map((food) => (
         <div key={food._id} className="h-screen w-full md:w-fit mx-auto">
           <ReelCard food={food} />

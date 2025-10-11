@@ -16,7 +16,7 @@ import {
 } from "@/types/auth";
 import { useUpdateUser } from "@/hooks/useAuth";
 import LoadingButton from "@/components/general/LoadingButton";
-import { useUserAuthStore } from "@/hooks/useUserAuthStore";
+import { useUserAuthStore } from "@/store/useUserAuthStore";
 import { useEffect } from "react";
 
 const UpdateAccountForm = () => {

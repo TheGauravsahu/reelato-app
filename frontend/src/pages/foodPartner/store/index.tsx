@@ -1,3 +1,4 @@
+import LoadingButton from "@/components/general/LoadingButton";
 import ReelatoLoader from "@/components/general/ReelatoLoader";
 import { ReelCard } from "@/components/home/ReelsFeed";
 import {
@@ -6,9 +7,10 @@ import {
   DialogFooter,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { useCreateChat } from "@/hooks/useChat";
 import { useFoodPartnerFoodsList } from "@/hooks/useFood";
 import { DialogClose } from "@radix-ui/react-dialog";
-import { X } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -16,6 +18,8 @@ const FoodPartnerStorePage = () => {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading, isError } = useFoodPartnerFoodsList(id!);
   const [hoveredVideo, setHoveredVideo] = useState<string | null>(null);
+
+  const { mutate: createChat, isPending } = useCreateChat();
 
   // console.log(data,"FOOD_DATA")
 
@@ -42,6 +46,16 @@ const FoodPartnerStorePage = () => {
           <p>
             Store id: <span className="text-muted-foreground">{id}</span>
           </p>
+
+          <LoadingButton
+            onClick={() => createChat(id!)}
+            isPending={isPending}
+            loadingText="Messaging"
+            className="w-full my-2 cursor-pointer"
+          >
+            <MessageCircle />
+            Message
+          </LoadingButton>
         </div>
         <div className="flex items-center gap-4">
           <p>
@@ -106,7 +120,7 @@ const FoodPartnerStorePage = () => {
 
                 <DialogFooter className="absolute top-2 right-2 cursor-pointer">
                   <DialogClose asChild>
-                    <X size={24} className="text-white"/>
+                    <X size={24} className="text-white" />
                   </DialogClose>
                 </DialogFooter>
               </DialogContent>

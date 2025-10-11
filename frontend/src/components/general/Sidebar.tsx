@@ -5,15 +5,30 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { User2, Settings, History, Bookmark, Heart, ListMusic } from "lucide-react";
+import {
+  User2,
+  Settings,
+  History,
+  Bookmark,
+  Heart,
+  ListMusic,
+  MessageCircle,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTheme } from "./theme-provider";
+import { NavUser } from "./NavUser";
 
 const items = [
   {
-    name: "History",
-    href: "/feed/history",
-    icon: History,
+    name: "Chats",
+    href: "/chat",
+    icon: MessageCircle,
+  },
+
+  {
+    name: "Liked",
+    href: "/feed/liked",
+    icon: Heart,
   },
   {
     name: "Saved",
@@ -21,15 +36,17 @@ const items = [
     icon: Bookmark,
   },
   {
-    name: "Liked",
-    href: "/feed/liked",
-    icon: Heart,
+    name: "History",
+    href: "/feed/history",
+    icon: History,
   },
+
   {
     name: "Playlists",
     href: "/feed/playlists",
     icon: ListMusic,
   },
+
   {
     name: "Account",
     href: "/settings/account",
@@ -77,7 +94,9 @@ const AppSidebar = () => {
         </SidebarGroup>
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   );
 };

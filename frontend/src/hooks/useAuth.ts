@@ -9,21 +9,22 @@ import type {
 } from "@/types/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { useUserAuthStore } from "./useUserAuthStore";
+import { useUserAuthStore } from "../store/useUserAuthStore";
 import { useFoodParnterAuthStore } from "./useFoodPartnerAuthStore";
 import { toastSuccessMessage, toastErrorMessage } from "@/lib/utils";
-
 
 export const useRegisterUser = () => {
   const navigate = useNavigate();
   const setUser = useUserAuthStore((state) => state.setUser);
+  const setToken = useUserAuthStore((state) => state.setToken);
 
   return useMutation({
     mutationFn: async (input: UserRegisterFormData) => {
       return await apiClient.post("/auth/users/register", input);
     },
     onSuccess: (res: any) => {
-      setUser(res.data);
+      setUser(res.data.user);
+      setToken(res.data.token);
       toastSuccessMessage("Your account has been created successfully!");
       navigate("/");
     },
@@ -34,15 +35,18 @@ export const useRegisterUser = () => {
 export const useLoginUser = () => {
   const navigate = useNavigate();
   const setUser = useUserAuthStore((state) => state.setUser);
+  const setToken = useUserAuthStore((state) => state.setToken);
 
   return useMutation({
     mutationFn: async (input: UserLoginFormData) => {
       return await apiClient.post("/auth/users/login", input);
     },
     onSuccess: (res: any) => {
-      setUser(res.data);
-      navigate("/");
+      console.log(res);
+      setToken(res.data.token);
+      setUser(res.data.user);
       toastSuccessMessage("Logged in succesfully!");
+      navigate("/");
     },
     onError: (error: any) => toastErrorMessage(error.response.data.message),
   });

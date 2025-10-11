@@ -104,3 +104,36 @@ export interface IPlaylist {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface IChat {
+  _id: string;
+  userId: string;
+  foodPartnerId: string;
+  lastMessage?: string;
+  lastMessageAt?: Date;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IChatWithFoodPartner {
+  _id: string;
+  userId: string;
+  foodPartnerId: {
+    _id: string;
+    fullName: string;
+  };
+  lastMessage?: string;
+  lastMessageAt?: Date;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IMessage {
+  _id: string;
+  chatId: string;
+  senderId: string;
+  senderType: "user" | "food_partner";
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+}

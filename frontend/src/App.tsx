@@ -1,7 +1,7 @@
 import AppRoutes from "./routes/AppRoutes";
 import { ThemeProvider } from "@/components/general/theme-provider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useUserAuthStore } from "./hooks/useUserAuthStore";
+import { useUserAuthStore } from "./store/useUserAuthStore";
 import { useEffect } from "react";
 
 function App() {
@@ -10,7 +10,7 @@ function App() {
 
   useEffect(() => {
     checkAuth();
-    
+
     // 🔒 Disable right click
     const handleContextMenu = (e: MouseEvent) => {
       e.preventDefault();

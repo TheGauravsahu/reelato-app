@@ -16,6 +16,9 @@ import SavedPage from "@/pages/feed/saved";
 import LikedPage from "@/pages/feed/liked";
 import PlaylistsPage from "@/pages/feed/playlists";
 import PlaylistDetailsPage from "@/pages/feed/playlists/PlaylistDetails";
+import ChatPage from "@/pages/chat";
+import ChatLayout from "@/pages/chat/ChatLayout";
+import NoChatPage from "@/pages/chat/NoChat";
 
 const AppRoutes = () => {
   return (
@@ -42,6 +45,13 @@ const AppRoutes = () => {
               path="/feed/playlists/:id"
               element={<PlaylistDetailsPage />}
             />
+          </Route>
+
+          <Route element={<SettingsLayout />}>
+            <Route element={<ChatLayout />}>
+              <Route path="/chat" element={<NoChatPage />} />
+              <Route path="/chat/:chatId" element={<ChatPage />} />
+            </Route>
           </Route>
         </Route>
         //user routes

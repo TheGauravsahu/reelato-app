@@ -61,9 +61,12 @@ export class AuthController {
       return res.status(201).json({
         message: "User registered successfully.",
         data: {
-          _id: user._id,
-          fullName: user.fullName,
-          email: user.email,
+          user: {
+            _id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+          },
+          token,
         },
       });
     } catch (error) {
@@ -107,9 +110,12 @@ export class AuthController {
       return res.status(201).json({
         message: "User logged in successfully.",
         data: {
-          _id: user._id,
-          fullName: user.fullName,
-          email: user.email,
+          user: {
+            _id: user._id,
+            fullName: user.fullName,
+            email: user.email,
+          },
+          token,
         },
       });
     } catch (error) {
@@ -123,7 +129,7 @@ export class AuthController {
       // await new Promise((resolve) => setTimeout(resolve, 2000)); (test)
       return res.status(200).json({
         message: "User profile fetched successfully.",
-        data: req.user,
+        data: { user: req.user, token: req.cookies.token },
       });
     } catch (error) {
       console.log("error getting user profile: ", error);
@@ -310,7 +316,7 @@ export class AuthController {
         email,
       });
 
-       return res.status(200).json({
+      return res.status(200).json({
         message: "Account details updated successfully.",
         data: {
           _id: foodPartner?._id,
