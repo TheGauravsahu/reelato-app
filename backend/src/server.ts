@@ -5,8 +5,7 @@ import config from "./config";
 async function startServer() {
   try {
     await connectDB(); // connect first
-    console.log("Database connected successfully");
-
+    
     app.listen(config.PORT, () => {
       console.log(`Server is running on port ${config.PORT}`);
     });
