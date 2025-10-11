@@ -9,6 +9,8 @@ import { globalErrorHandler } from "./middlewares/errorHandler.middleware";
 import config from "./config";
 import { limiter } from "./middlewares/rateLimiter.middleware";
 import { authUser } from "./middlewares/auth.middleware";
+import mongoose from "mongoose";
+import connectDB from "./config/db";
 
 const app = express();
 
@@ -18,6 +20,16 @@ app.use(cors({ origin: config.FRONEND_URL, credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(limiter);
+app.use(async (req, res, next) => {
+  if (mongoose.connection.readyState !== 1) { // 1 means connected
+    try {
+      await connectDB();
+    } catch (error) {
+      return next(error);
+    }
+  }
+  next();
+});
 
 app.use("/api/auth", authRouter);
 app.use("/api/foods", foodRouter);
