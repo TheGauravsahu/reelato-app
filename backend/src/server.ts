@@ -2,7 +2,18 @@ import app from "./app";
 import connectDB from "./config/db";
 import config from "./config";
 
-app.listen(config.PORT, async () => {
-  await connectDB();
-  console.log(`Server is running on port ${config.PORT}`);
-});
+async function startServer() {
+  try {
+    await connectDB(); // connect first
+    console.log("Database connected successfully");
+
+    app.listen(config.PORT, () => {
+      console.log(`Server is running on port ${config.PORT}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+}
+
+startServer();
