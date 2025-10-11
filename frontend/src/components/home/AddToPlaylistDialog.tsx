@@ -18,7 +18,9 @@ const AddToPlaylistDialog = ({ foodId }: { foodId: string }) => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <button className="btn btn-primary">Add to Playlist</button>
+        <button className="bg-black/50 p-2 rounded-full hover:bg-black/70 cursor-pointer">
+          <ListMusic className="w-6 h-6 text-white" />
+        </button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
