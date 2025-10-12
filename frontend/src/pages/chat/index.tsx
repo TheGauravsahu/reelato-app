@@ -4,13 +4,20 @@ import { useChatMessages } from "@/hooks/useChat";
 import { formatDate } from "@/lib/utils";
 import { useChatStore } from "@/store/useChatStore";
 import { useSocketStore } from "@/store/useSocketStore";
+import type { IMessage } from "@/types";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 const ChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
-  const { messages, sendMessage, joinChat, listenForMessages, setMessages } =
-    useChatStore();
+  const {
+    messages,
+    sendMessage,
+    addMessage,
+    joinChat,
+    listenForMessages,
+    setMessages,
+  } = useChatStore();
   const { user, connect } = useSocketStore();
   const [text, setText] = useState("");
   const { data: fetchedMessages, isPending } = useChatMessages(chatId!);
@@ -23,15 +30,34 @@ const ChatPage = () => {
     if (!chatId) return;
     const initSocket = async () => {
       await connect();
-      joinChat(chatId);
-      listenForMessages();
+
+      const { socket } = useSocketStore.getState();
+      if (!socket) return;
+
+      socket.on("authenticated", () => {
+        console.log("✅ Authenticated, joining chat:", chatId);
+        joinChat(chatId);
+        listenForMessages();
+      });
     };
 
     initSocket();
+    return () => {
+      const { socket } = useSocketStore.getState();
+      socket?.off("newMessage");
+      socket?.off("authenticated");
+    };
   }, [chatId, connect, joinChat, listenForMessages]);
 
   const handleSend = () => {
     if (text.trim()) {
+      const newMessage = {
+        text,
+        chatId,
+        senderId: user?.id as string,
+        createdAt: new Date().toISOString(),
+      };
+      addMessage(newMessage as IMessage); // instantly show it
       sendMessage(chatId!, text);
       setText("");
     }

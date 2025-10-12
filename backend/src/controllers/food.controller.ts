@@ -6,6 +6,7 @@ import { uploadFile } from "../services/storage.service";
 import { likeModel } from "../models/like.model";
 import { saveModel } from "../models/save.model";
 import { watchModel } from "../models/watch.model";
+import mongoose from "mongoose";
 
 class FoodController {
   constructor() {}
@@ -94,33 +95,24 @@ class FoodController {
   async likeFood(req: Request, res: Response, next: NextFunction) {
     try {
       const { foodId } = req.params;
-      const isAlreadyLike = await likeModel.findOne({
-        foodId,
-        userId: req?.user?.id,
-      });
+      const userId = req?.user?._id as string;
+
+      const isAlreadyLike = await likeModel.findOne({ foodId, userId });
 
       if (isAlreadyLike) {
         // unlike
-        await likeModel.deleteOne({
-          userId: req?.user?._id,
-          foodId: foodId,
-        });
-        await foodModel.findByIdAndUpdate(foodId, {
-          $inc: { likesCount: -1 },
-        });
+        await likeModel.deleteOne({ userId, foodId });
+        await foodModel.updateOne(
+          { _id: foodId, likesCount: { $gt: 0 } },
+          { $inc: { likesCount: -1 } }
+        );
 
         return res.status(200).json({
           message: "Food unliked successfully",
         });
       }
-
-      const like = await likeModel.create({
-        foodId,
-        userId: req?.user?.id,
-      });
-      await foodModel.findByIdAndUpdate(foodId, {
-        $inc: { likesCount: 1 },
-      });
+      const like = await likeModel.create({ foodId, userId });
+      await foodModel.updateOne({ _id: foodId }, { $inc: { likesCount: 1 } });
 
       return res.status(200).json({
         message: "Food liked successfully",
@@ -135,38 +127,26 @@ class FoodController {
   async saveFood(req: Request, res: Response, next: NextFunction) {
     try {
       const { foodId } = req.params;
-
-      const isAlreadySaved = await saveModel.findOne({
-        foodId,
-        userId: req?.user?.id,
-      });
-
-      if (!isAlreadySaved) {
-        const save = await saveModel.create({
-          foodId,
-          userId: req?.user?.id,
-        });
-        await foodModel.findByIdAndUpdate(foodId, {
-          $inc: { savesCount: 1 },
-        });
-
+      const userId = req?.user?._id as string;
+      
+      const isAlreadySaved = await saveModel.findOne({ foodId, userId });
+      if (isAlreadySaved) {
+        // unsave
+        await saveModel.deleteOne({ userId, foodId });
+        await foodModel.updateOne(
+          { _id: foodId, savesCount: { $gt: 0 } }, // prevent negative
+          { $inc: { savesCount: -1 } }
+        );
         return res.status(200).json({
-          message: "Food saved successfully",
-          data: save,
+          message: "Food unsaved successfully",
         });
       }
-
-      // unsave
-      await saveModel.deleteOne({
-        userId: req?.user?._id,
-        foodId: foodId,
-      });
-      await foodModel.findByIdAndUpdate(foodId, {
-        $inc: { savesCount: -1 },
-      });
+      const save = await saveModel.create({ foodId, userId });
+      await foodModel.updateOne({ _id: foodId }, { $inc: { savesCount: 1 } });
 
       return res.status(200).json({
-        message: "Food unsaved successfully",
+        message: "Food saved successfully",
+        data: save,
       });
     } catch (error) {
       console.log("error liking the food", error);

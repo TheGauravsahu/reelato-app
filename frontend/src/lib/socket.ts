@@ -10,7 +10,7 @@ export const connectSocket = async (): Promise<Socket> => {
 
   const socketInstance = io(import.meta.env.VITE_API_URL, {
     withCredentials: true,
-    transports: ["websocket"],
+    transports: ["websocket", "polling"],
   });
 
   socketInstance.on("connect", () => {
