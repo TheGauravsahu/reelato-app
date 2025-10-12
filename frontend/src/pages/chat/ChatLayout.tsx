@@ -43,7 +43,9 @@ const ChatSidebar = () => {
               </Avatar>
               <div className="">
                 <h2>{chat.foodPartnerId.fullName}</h2>
-                <h4 className="font-light text-sm text-muted-foreground">{chat.lastMessage}</h4>
+                <h4 className="font-light text-sm text-muted-foreground max-w-xs">
+                  {chat.lastMessage?.slice(0, 17)}....
+                </h4>
               </div>
             </div>
             <span className="text-xs text-muted-foreground">

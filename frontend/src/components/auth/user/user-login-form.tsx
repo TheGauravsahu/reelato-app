@@ -101,13 +101,19 @@ export function UserLoginForm() {
                   </LoadingButton>
                 </div>
               </div>
-              <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
-                <Link
-                  to="/user/register"
-                  className="underline underline-offset-4"
-                >
-                  Register
+              <div className="mt-4 text-center text-sm flex flex-col space-y-1">
+                <div className="">
+                  Don&apos;t have an account?{" "}
+                  <Link
+                    to="/user/register"
+                    className="underline underline-offset-4"
+                  >
+                    Register
+                  </Link>
+                </div>
+                <span>Or</span>
+                <Link to="/food-partner/login" className="text-center">
+                  Login as Food Partner
                 </Link>
               </div>
             </form>

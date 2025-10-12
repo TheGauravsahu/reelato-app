@@ -76,7 +76,7 @@ const PlaylistCard = ({ playlist }: { playlist: IPlaylist }) => {
         <div className=" absolute top-2 right-2">
           <PlaylistOptions playlistId={playlist._id} />
         </div>
-        <div className="h-7 w-20 gap-1 flex items-center justify-center absolute bottom-2 right-2 text-xs bg-black/45 p-1 rounded-sm">
+        <div className="h-7 w-20 gap-1 flex items-center justify-center absolute bottom-2 right-2 text-xs dark:bg-black/45 p-1 rounded-sm">
           <ListMusic size={12} className="xs" />
           {playlist.foodIds.length} videos
         </div>

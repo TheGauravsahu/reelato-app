@@ -71,16 +71,16 @@ const ChatPage = () => {
         {messages.map((msg, i) => (
           <div
             key={i}
-            className={`flex max-w-sm rounded-sm   h-10 ${
+            className={`flex max-w-sm rounded-sm   min-h-10 ${
               msg.senderId === user?.id
                 ? "justify-end bg-primary"
                 : "justify-start bg-secondary"
             }`}
           >
-            <div className="flex items-center justify-center px-4 py-1">
+            <div className="flex-1 w-[90%] items-center justify-center px-4 py-2">
               <h4>{msg.text}</h4>
             </div>
-            <div className="text-[11px] h-10 flex items-end justify-end pr-2 pb-1 ">
+            <div className="text-[12px]   min-h-10 flex items-end justify-end pr-2 pb-1 ">
               {formatDate(msg.createdAt)}
             </div>
           </div>
