@@ -1,13 +1,13 @@
 import { useSidebar } from "@/components/ui/sidebar";
-import ChatList from "./ChatList";
+import FoodPartnerChatList from "./FoodPartnerChatList";
 
-const NoChatPage = () => {
+const FoodPartnerNoChatPage = () => {
   const { isMobile } = useSidebar();
 
   return (
     <div>
       {isMobile ? (
-        <ChatList />
+        <FoodPartnerChatList />
       ) : (
         <div className="hidden md:block">
           <div>
@@ -21,4 +21,4 @@ const NoChatPage = () => {
   );
 };
 
-export default NoChatPage;
+export default FoodPartnerNoChatPage;

@@ -12,7 +12,6 @@ class FoodController {
   constructor() {}
 
   async createFood(req: Request, res: Response, next: NextFunction) {
-    // console.log(req);
     const { name, description } = req.body as IFood;
     const file = req.file;
     if (!file) {
@@ -128,7 +127,7 @@ class FoodController {
     try {
       const { foodId } = req.params;
       const userId = req?.user?._id as string;
-      
+
       const isAlreadySaved = await saveModel.findOne({ foodId, userId });
       if (isAlreadySaved) {
         // unsave

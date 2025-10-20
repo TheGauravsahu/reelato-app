@@ -18,12 +18,16 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
-import { useUserAuthStore } from "@/store/useUserAuthStore";
 import { Link } from "react-router-dom";
 
-export function NavUser() {
+export function NavUser({
+  user,
+  logout,
+}: {
+  user: { fullName: string; email: string };
+  logout: () => void;
+}) {
   const { isMobile } = useSidebar();
-  const { user, logout } = useUserAuthStore();
 
   return (
     <SidebarMenu>

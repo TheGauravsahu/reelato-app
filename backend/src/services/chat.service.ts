@@ -35,7 +35,10 @@ class ChatService {
   }
 
   async getFoodPartnerChats(foodPartnerId: string) {
-    return await chatModel.find({ foodPartnerId }).sort({ lastMessageAt: -1 });
+    return await chatModel
+      .find({ foodPartnerId })
+      .populate("userId", "fullName")
+      .sort({ lastMessageAt: -1 });
   }
 
   async getChatById(chatId: string) {

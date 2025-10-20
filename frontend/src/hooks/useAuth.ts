@@ -10,7 +10,7 @@ import type {
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { useUserAuthStore } from "../store/useUserAuthStore";
-import { useFoodParnterAuthStore } from "./useFoodPartnerAuthStore";
+import { useFoodPartnerAuthStore } from "./useFoodPartnerAuthStore";
 import { toastSuccessMessage, toastErrorMessage } from "@/lib/utils";
 
 export const useRegisterUser = () => {
@@ -82,20 +82,23 @@ export const useDeleteUser = () => {
   });
 };
 
+// food partner mutation
 export const useRegisterFoodPartner = () => {
   const navigate = useNavigate();
-  const setFoodPartner = useFoodParnterAuthStore(
+  const setFoodPartner = useFoodPartnerAuthStore(
     (state) => state.setFoodPartner
   );
+  const setToken = useFoodPartnerAuthStore((state) => state.setToken);
 
   return useMutation({
     mutationFn: async (input: FoodPartnerRegisterFormData) => {
       return await apiClient.post("/auth/food-partners/register", input);
     },
     onSuccess: (res: any) => {
-      setFoodPartner(res.data);
+      setFoodPartner(res.data.foodPartner);
+      setToken(res.data.token);
       toastSuccessMessage("Your account has been created successfully!");
-      navigate("/");
+      navigate("/app");
     },
     onError: (error: any) =>
       toastErrorMessage(error.response.data.message || error.message),
@@ -104,18 +107,53 @@ export const useRegisterFoodPartner = () => {
 
 export const useLoginFoodPartner = () => {
   const navigate = useNavigate();
-  const setFoodPartner = useFoodParnterAuthStore(
+  const setFoodPartner = useFoodPartnerAuthStore(
     (state) => state.setFoodPartner
   );
+  const setToken = useFoodPartnerAuthStore((state) => state.setToken);
 
   return useMutation({
     mutationFn: async (input: FoodPartnerLoginFormData) => {
       return await apiClient.post("/auth/food-partners/login", input);
     },
     onSuccess: (res: any) => {
-      setFoodPartner(res.data);
+      setFoodPartner(res.data.foodPartner);
+      setToken(res.data.token);
+
       toastSuccessMessage("Logged in succesfully!");
-      navigate("/");
+      navigate("/app");
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useUpdateFoodPartner = () => {
+  const setFoodPartner = useFoodPartnerAuthStore(
+    (state) => state.setFoodPartner
+  );
+
+  return useMutation({
+    mutationFn: async (input: UpdateUserAccountFormData) => {
+      return await apiClient.put("/auth/food-partners/me", input);
+    },
+    onSuccess: (res: any) => {
+      setFoodPartner(res.data);
+      toastSuccessMessage("Account details updated succesfully!");
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useDeleteFoodPartner = () => {
+  const { logout } = useFoodPartnerAuthStore();
+
+  return useMutation({
+    mutationFn: async () => {
+      return await apiClient.delete("/auth/food-partners/me");
+    },
+    onSuccess: (res: any) => {
+      logout();
+      toastSuccessMessage(res.message);
     },
     onError: (error: any) => toastErrorMessage(error.response.data.message),
   });

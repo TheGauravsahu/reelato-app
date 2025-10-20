@@ -174,3 +174,20 @@ export const useWatchFood = () => {
     },
   });
 };
+
+export const useCreateFood = (options?: any) => {
+  return useMutation({
+    mutationFn: async (data: FormData) => {
+      return await apiClient.post<{ data: IFood }>("/foods", data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: options?.onUploadProgress,
+      });
+    },
+    onSuccess: (res: any) => {
+      console.log(res);
+      options?.onSuccess();
+      // toastSuccessMessage(res.message);
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};

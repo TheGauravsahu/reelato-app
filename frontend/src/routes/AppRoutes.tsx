@@ -19,12 +19,19 @@ import PlaylistDetailsPage from "@/pages/feed/playlists/PlaylistDetails";
 import ChatPage from "@/pages/chat";
 import ChatLayout from "@/pages/chat/ChatLayout";
 import NoChatPage from "@/pages/chat/NoChat";
+import FoodPartnerProtectedRoute from "./FoodPartnerProtectedRoute";
+import FoodPartnerAppPage from "@/pages/app";
+import AppLayout from "@/pages/app/AppLayout";
+import FoodPartnerAccountPage from "@/pages/app/account";
+import FoodPartnerChatLayout from "@/pages/app/chat/FoodPartnerChatLayout";
+import FoodPartnerChatPage from "@/pages/app/chat";
+import FoodPartnerNoChatPage from "@/pages/app/chat/FoodPartnerNoChat";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        //protected routes
+        {/* protected routes (user)  */}
         <Route element={<UserProtectedRoute />}>
           <Route element={<Layout />}>
             <Route path="/" element={<HomePage />} />
@@ -45,19 +52,33 @@ const AppRoutes = () => {
               path="/feed/playlists/:id"
               element={<PlaylistDetailsPage />}
             />
-          </Route>
-
-          <Route element={<SettingsLayout />}>
             <Route element={<ChatLayout />}>
               <Route path="/chat" element={<NoChatPage />} />
               <Route path="/chat/:chatId" element={<ChatPage />} />
             </Route>
           </Route>
         </Route>
-        //user routes
+
+        {/* protected routes (food-partner)  */}
+        <Route element={<FoodPartnerProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route path="/app" element={<FoodPartnerAppPage />} />
+            <Route path="/app/account" element={<FoodPartnerAccountPage />} />
+            <Route path="/app/preferences" element={<PrefrencesPage />} />
+            <Route element={<FoodPartnerChatLayout />}>
+              <Route path="/app/chat" element={<FoodPartnerNoChatPage />} />
+              <Route
+                path="/app/chat/:chatId"
+                element={<FoodPartnerChatPage />}
+              />
+            </Route>
+          </Route>
+        </Route>
+
+        {/* user routes */}
         <Route path="/user/register" element={<RegisterUser />} />
         <Route path="/user/login" element={<LoginUser />} />
-        //food partner routes
+        {/* food partner routes */}
         <Route
           path="/food-partner/register"
           element={<RegisterFoodPartner />}
