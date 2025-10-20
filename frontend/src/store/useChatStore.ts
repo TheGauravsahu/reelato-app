@@ -8,7 +8,7 @@ interface ChatState {
   setMessages: (messages: IMessage[]) => void;
   joinChat: (chatId: string) => void;
   sendMessage: (chatId: string, message: string) => void;
-  listenForMessages: () => void;
+  initListeners: () => void;
 }
 
 export const useChatStore = create<ChatState>((set) => ({
@@ -30,15 +30,17 @@ export const useChatStore = create<ChatState>((set) => ({
     socket.emit("sendMessage", { chatId, text });
   },
 
-  listenForMessages: () => {
+  initListeners: () => {
     const socket = useSocketStore.getState().socket;
     if (!socket) return;
 
-    socket.off("newMessage"); // avoid duplicate listeners
+    socket.off("newMessage"); // remove previous listeners
     socket.on("newMessage", (message: IMessage) => {
-      set((state) => ({
-        messages: [...state.messages, message],
-      }));
+      set((state) => {
+        // prevent duplicates by _id
+        if (state.messages.some((m) => m._id === message._id)) return state;
+        return { messages: [...state.messages, message] };
+      });
     });
   },
 }));

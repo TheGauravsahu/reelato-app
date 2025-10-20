@@ -128,6 +128,19 @@ export interface IChatWithFoodPartner {
   updatedAt: string;
 }
 
+export interface IChatWithUser {
+  _id: string;
+  foodPartnerId: string;
+  userId: {
+    _id: string;
+    fullName: string;
+  };
+  lastMessage?: string;
+  lastMessageAt?: Date;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface IMessage {
   _id: string;
   chatId: string;

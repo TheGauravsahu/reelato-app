@@ -1,6 +1,6 @@
 import Loader from "@/components/general/Loader";
 import { Button } from "@/components/ui/button";
-import { useUserChatMessages } from "@/hooks/useChat";
+import { useFoodPartnerChatMessages } from "@/hooks/useChat";
 import { formatDate } from "@/lib/utils";
 import { useChatStore } from "@/store/useChatStore";
 import { useSocketStore } from "@/store/useSocketStore";
@@ -8,12 +8,14 @@ import type { IMessage } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
-const ChatPage = () => {
+const FoodPartnerChatPage = () => {
   const { chatId } = useParams<{ chatId: string }>();
   const { messages, sendMessage, addMessage, setMessages } = useChatStore();
   const { user, connect } = useSocketStore();
   const [text, setText] = useState("");
-  const { data: fetchedMessages, isPending } = useUserChatMessages(chatId!);
+  const { data: fetchedMessages, isPending } = useFoodPartnerChatMessages(
+    chatId!
+  );
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -79,7 +81,7 @@ const ChatPage = () => {
 
   return (
     <div className="h-full w-full">
-      <div className="h-screen md:h-[90%] w-full overflow-y-scroll scroll-hide p-4 space-y-4 flex flex-col  items-end ">
+      <div className="h-[95vh] px-4 md:h-[90%] w-full overflow-y-scroll scroll-hide p-4 space-y-4 flex flex-col  items-end ">
         {messages.map((msg) => {
           const isSender = msg.senderId === user?.id;
           return (
@@ -107,7 +109,7 @@ const ChatPage = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="p-4  flex gap-2 fixed bottom-0 right-0 bg-background z-10 w-full md:w-[60vw]">
+      <div className="md:px-4 p-3 h-16 flex gap-2 fixed bottom-0 right-0 bg-background z-10 w-full lg:w-[60vw] md:w-[50vw]">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -127,4 +129,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default FoodPartnerChatPage;

@@ -53,5 +53,10 @@ router.put(
   authFoodPartner,
   authController.updatFoodPartnerProfile.bind(authController)
 );
+router.delete(
+  "/food-partners/me",
+  authFoodPartner,
+  authController.deleteFoodPartner.bind(authController)
+);
 
 export default router;

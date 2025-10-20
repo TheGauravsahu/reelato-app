@@ -5,77 +5,46 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import {
-  User2,
-  Settings,
-  History,
-  Bookmark,
-  Heart,
-  ListMusic,
-  MessageCircle,
-} from "lucide-react";
+import { User2, Settings, MessageCircle } from "lucide-react";
+import { useTheme } from "@/components/general/theme-provider";
+import { NavUser } from "@/components/general/NavUser";
 import { Link } from "react-router-dom";
-import { useTheme } from "./theme-provider";
-import { NavUser } from "./NavUser";
-import { useUserAuthStore } from "@/store/useUserAuthStore";
+import { useFoodPartnerAuthStore } from "@/hooks/useFoodPartnerAuthStore";
 
 const items = [
   {
     name: "Chats",
-    href: "/chat",
+    href: "/app/chat",
     icon: MessageCircle,
   },
-
-  {
-    name: "Liked",
-    href: "/feed/liked",
-    icon: Heart,
-  },
-  {
-    name: "Saved",
-    href: "/feed/saved",
-    icon: Bookmark,
-  },
-  {
-    name: "History",
-    href: "/feed/history",
-    icon: History,
-  },
-
-  {
-    name: "Playlists",
-    href: "/feed/playlists",
-    icon: ListMusic,
-  },
-
   {
     name: "Account",
-    href: "/settings/account",
+    href: "/app/account",
     icon: User2,
   },
   {
     name: "Preferences",
-    href: "/settings/preferences",
+    href: "/app/preferences",
     icon: Settings,
   },
 ];
 
-const AppSidebar = () => {
+const FoodPartnerSidebar = () => {
   const { theme } = useTheme();
-  const { user, logout } = useUserAuthStore();
+  const { foodPartner, logout } = useFoodPartnerAuthStore();
 
   return (
     <Sidebar>
       <SidebarHeader>
-        <div className="flex gap-1 items-center border-b p-4">
+        <div className="flex items-center border-b p-4">
           <img
             key={theme}
             src={theme === "light" ? "/reelato-dark.svg" : "/reelato-light.svg"}
-            className="h-4 w-4 md:h-6 md:w-6"
+            className="h-4 w-4 md:h-7 md:w-7"
             alt="Reelato Logo"
           />
-          <h1 className="text-center font-semibold text-lg  md:text-xl text-foreground">
-            Reelato
+          <h1 className="text-center font-bold text-xl w-full text-foreground">
+            Reelato - Partner
           </h1>
         </div>
       </SidebarHeader>
@@ -99,8 +68,8 @@ const AppSidebar = () => {
       <SidebarFooter>
         <NavUser
           user={{
-            fullName: user?.fullName as string,
-            email: user?.email as string,
+            fullName: foodPartner?.fullName as string,
+            email: foodPartner?.email as string,
           }}
           logout={logout}
         />
@@ -109,4 +78,4 @@ const AppSidebar = () => {
   );
 };
 
-export default AppSidebar;
+export default FoodPartnerSidebar;

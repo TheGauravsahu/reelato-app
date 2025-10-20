@@ -47,6 +47,18 @@ export const useUserAuthStore = create<AuthState>()(
     {
       name: "reelato-uAuth-storage",
       partialize: (state) => ({ user: state.user, token: state.token }),
+      onRehydrateStorage: () => async (state) => {
+        if (!state) return;
+        const { user, checkAuth } = state as AuthState;
+
+        if (user) {
+          // Already have persisted data — verify it
+          await checkAuth();
+        } else {
+          // No data found — stop loading
+          state.loading = false;
+        }
+      },
     }
   )
 );

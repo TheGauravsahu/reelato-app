@@ -3,10 +3,11 @@ import mongoose from "mongoose";
 export interface IFoodPartner extends mongoose.Document {
   fullName: string;
   contactName: string;
-  phone:string;
+  phone: string;
   address: string;
   email: string;
   password: string;
+  isActive: boolean;
 }
 
 const foodPartnerSchema = new mongoose.Schema<IFoodPartner>(
@@ -38,6 +39,12 @@ const foodPartnerSchema = new mongoose.Schema<IFoodPartner>(
     },
     password: {
       type: String,
+      select: false,
+    },
+    isActive: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
   },
   { timestamps: true }
