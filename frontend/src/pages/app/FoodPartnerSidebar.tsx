@@ -5,7 +5,14 @@ import {
   SidebarGroup,
   SidebarHeader,
 } from "@/components/ui/sidebar";
-import { User2, Settings, MessageCircle } from "lucide-react";
+import {
+  User2,
+  Settings,
+  MessageCircle,
+  Upload,
+  Video,
+  Bell,
+} from "lucide-react";
 import { useTheme } from "@/components/general/theme-provider";
 import { NavUser } from "@/components/general/NavUser";
 import { Link } from "react-router-dom";
@@ -13,10 +20,21 @@ import { useFoodPartnerAuthStore } from "@/hooks/useFoodPartnerAuthStore";
 
 const items = [
   {
+    name: "Upload",
+    href: "/app",
+    icon: Upload,
+  },
+  {
+    name: "All Uploads",
+    href: "/app/uploads",
+    icon: Video,
+  },
+  {
     name: "Chats",
     href: "/app/chat",
     icon: MessageCircle,
   },
+  { name: "Notifications", href: "/app/notifications", icon: Bell },
   {
     name: "Account",
     href: "/app/account",
@@ -72,6 +90,7 @@ const FoodPartnerSidebar = () => {
             email: foodPartner?.email as string,
           }}
           logout={logout}
+          role="food_partner"
         />
       </SidebarFooter>
     </Sidebar>

@@ -26,7 +26,8 @@ import { Progress } from "@/components/ui/progress";
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   description: z.string().min(2, "Description must be at least 2 characters"),
-  file: z.any(),
+  videoFile: z.any(),
+  thumbnailFile: z.any(),
 });
 
 const FoodPartnerAppPage = () => {
@@ -36,9 +37,11 @@ const FoodPartnerAppPage = () => {
     defaultValues: {
       name: "",
       description: "",
-      file: undefined,
+      videoFile: undefined,
+      thumbnailFile: undefined,
     },
   });
+
   const createFoodMutation = useCreateFood({
     onUploadProgress: (progressEvent: ProgressEvent) => {
       const percent = Math.round(
@@ -49,10 +52,15 @@ const FoodPartnerAppPage = () => {
     onSuccess: () => {
       form.reset();
       setUploadProgress(0);
-      const fileInput = document.getElementById(
+      const videoFileInput = document.getElementById(
         "video-file"
       ) as HTMLInputElement;
-      if (fileInput) fileInput.value = "";
+      if (videoFileInput) videoFileInput.value = "";
+
+      const thumbnailFileInput = document.getElementById(
+        "thumbnail-file"
+      ) as HTMLInputElement;
+      if (thumbnailFileInput) thumbnailFileInput.value = "";
     },
   });
 
@@ -60,7 +68,9 @@ const FoodPartnerAppPage = () => {
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("description", values.description);
-    formData.append("video", values.file[0]);
+    if (values.videoFile?.[0]) formData.append("video", values.videoFile[0]);
+    if (values.thumbnailFile?.[0])
+      formData.append("thumbnail", values.thumbnailFile[0]);
 
     createFoodMutation.mutate(formData);
   }
@@ -106,7 +116,29 @@ const FoodPartnerAppPage = () => {
 
             <FormField
               control={form.control}
-              name="file"
+              name="thumbnailFile"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Thumbnail<span className="text-xs">(Optional)</span></FormLabel>
+                  <FormControl>
+                    <Input
+                      id="thumbnail-file"
+                      type="file"
+                      accept="image/*"
+                      placeholder="Uplaod the thumbnail file."
+                      value={undefined}
+                      onChange={(e) => field.onChange(e.target.files)}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="videoFile"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Video</FormLabel>

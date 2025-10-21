@@ -14,7 +14,7 @@ const FoodPartnerChatList = () => {
       </div>
     );
 
-  if (!isPending && chats?.length === 0) {
+  if (!isPending && (chats?.length ?? 0) === 0) {
     <div className="w-[20vw] hidde h-screen border-r md:flex items-center justify-center">
       <span className="text-muted-foreground">No Chats found.</span>
     </div>;

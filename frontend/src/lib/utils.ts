@@ -25,3 +25,12 @@ export function formatDate(date: string | Date) {
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
 }
+
+export function formatDateWithTime(date: string | Date) {
+  const d = new Date(date);
+  const day = d.getDate();
+  const month = d.toLocaleString("default", { month: "short" });
+  const year = d.getFullYear();
+  const time = formatDate(d);
+  return `${day} ${month} ${year}, ${time}`;
+}

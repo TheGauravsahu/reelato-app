@@ -2,6 +2,7 @@ export interface IFood {
   _id: string;
   name: string;
   videoUrl: string;
+  thumbnailUrl: string;
   description: string;
   foodPartner: {
     _id: string;
@@ -19,6 +20,7 @@ export interface IFoodWithFoodPartner {
   _id: string;
   name: string;
   videoUrl: string;
+  thumbnailUrl: string;
   description: string;
   foodPartner: {
     _id: string;

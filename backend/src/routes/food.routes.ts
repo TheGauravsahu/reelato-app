@@ -1,7 +1,7 @@
 import express from "express";
 import { foodController } from "../controllers/food.controller";
 import { authFoodPartner, authUser } from "../middlewares/auth.middleware";
-import { uplaod } from "../middlewares/multer.middelware";
+import { upload } from "../middlewares/multer.middelware";
 import { watchController } from "../controllers/watch.controller";
 
 const router = express.Router();
@@ -9,8 +9,39 @@ const router = express.Router();
 router.post(
   "/",
   authFoodPartner as any,
-  uplaod.single("video"),
+  upload.fields([
+    { name: "video", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   foodController.createFood.bind(foodController) as any
+);
+
+router.get(
+  "/my",
+  authFoodPartner as any,
+  foodController.getMyFoods.bind(foodController) as any
+);
+
+router.get(
+  "/:foodId",
+  authFoodPartner as any,
+  foodController.getFoodDetails.bind(foodController) as any
+);
+
+router.put(
+  "/:foodId",
+  authFoodPartner as any,
+  upload.fields([
+    { name: "video", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
+  foodController.updateFood.bind(foodController) as any
+);
+
+router.delete(
+  "/:foodId",
+  authFoodPartner as any,
+  foodController.deleteFood.bind(foodController) as any
 );
 
 router.get(

@@ -23,9 +23,11 @@ import { Link } from "react-router-dom";
 export function NavUser({
   user,
   logout,
+  role,
 }: {
   user: { fullName: string; email: string };
   logout: () => void;
+  role: "user" | "food_partner";
 }) {
   const { isMobile } = useSidebar();
 
@@ -72,7 +74,7 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <Link to="/settings/account">
+              <Link to={role === "user" ? "/settings/account" : "/app/account"}>
                 <DropdownMenuItem className="cursor-pointer">
                   <User2 />
                   Account

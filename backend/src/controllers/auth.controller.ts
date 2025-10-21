@@ -149,6 +149,7 @@ export class AuthController {
       });
     }
   );
+  
   logoutFoodPartner = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
       res.clearCookie("token");

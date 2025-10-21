@@ -163,6 +163,18 @@ export const useFoodPartnerFoodsList = (foodPartnerId: string) => {
   });
 };
 
+export const useMyFoodsList = () => {
+  return useQuery({
+    queryKey: ["reelato-my-foodList"],
+    queryFn: async () => {
+      const res = await apiClient.get<{ data: IFood[] }>("/foods/my");
+      return res.data;
+    },
+    staleTime: 1000 * 60 * 5, // 5 minutes
+    refetchOnWindowFocus: false,
+  });
+};
+
 export const useWatchFood = () => {
   return useMutation({
     mutationFn: async (foodId: string) => {
@@ -176,6 +188,8 @@ export const useWatchFood = () => {
 };
 
 export const useCreateFood = (options?: any) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (data: FormData) => {
       return await apiClient.post<{ data: IFood }>("/foods", data, {
@@ -183,11 +197,72 @@ export const useCreateFood = (options?: any) => {
         onUploadProgress: options?.onUploadProgress,
       });
     },
-    onSuccess: (res: any) => {
-      console.log(res);
+    onSuccess: async (res: any) => {
+      // console.log(res);
+      await queryClient.invalidateQueries({
+        queryKey: ["reelato-my-foodList"],
+      });
       options?.onSuccess();
-      // toastSuccessMessage(res.message);
+      toastSuccessMessage(res.message);
     },
     onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useDeleteFood = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (foodId: string) => {
+      return await apiClient.delete("/foods/" + foodId);
+    },
+    onSuccess: async (res: any) => {
+      await queryClient.invalidateQueries({
+        queryKey: ["reelato-my-foodList"],
+      });
+      toastSuccessMessage(res.message);
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useEditFood = (options?: any) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      foodId,
+      data,
+    }: {
+      foodId: string;
+      data: FormData;
+    }) => {
+      return await apiClient.put<{ data: IFood }>("/foods/" + foodId, data, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress: options?.onUploadProgress,
+      });
+    },
+    onSuccess: async (res: any) => {
+      // console.log(res);
+      await queryClient.invalidateQueries({
+        queryKey: ["reelato-my-foodList"],
+      });
+      options?.onSuccess();
+      toastSuccessMessage(res.message);
+    },
+    onError: (error: any) => toastErrorMessage(error.response.data.message),
+  });
+};
+
+export const useFoodDetials = (foodId: string, open = true) => {
+  return useQuery({
+    queryKey: ["reelato-food", foodId],
+    queryFn: async () => {
+      const res = await apiClient.get<{ data: IFood }>("/foods/" + foodId);
+      return res.data;
+    },
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60, // 1 hours
+    enabled: !!foodId && !!open,
   });
 };

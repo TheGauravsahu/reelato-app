@@ -103,6 +103,7 @@ const AppSidebar = () => {
             email: user?.email as string,
           }}
           logout={logout}
+          role="user"
         />
       </SidebarFooter>
     </Sidebar>

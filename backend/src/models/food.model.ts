@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export interface IFood extends mongoose.Document {
   name: string;
   videoUrl: string;
+  thumbnailUrl: string;
   description: string;
   foodPartner: mongoose.Schema.Types.ObjectId;
   likesCount: number;
@@ -18,6 +19,10 @@ const foodSchema = new mongoose.Schema<IFood>(
     videoUrl: {
       type: String,
       required: true,
+    },
+    thumbnailUrl: {
+      type: String,
+      required: false,
     },
     description: {
       type: String,

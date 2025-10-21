@@ -26,6 +26,7 @@ import FoodPartnerAccountPage from "@/pages/app/account";
 import FoodPartnerChatLayout from "@/pages/app/chat/FoodPartnerChatLayout";
 import FoodPartnerChatPage from "@/pages/app/chat";
 import FoodPartnerNoChatPage from "@/pages/app/chat/FoodPartnerNoChat";
+import AllUploadsPage from "@/pages/app/uploads";
 
 const AppRoutes = () => {
   return (
@@ -63,6 +64,7 @@ const AppRoutes = () => {
         <Route element={<FoodPartnerProtectedRoute />}>
           <Route element={<AppLayout />}>
             <Route path="/app" element={<FoodPartnerAppPage />} />
+            <Route path="/app/uploads" element={<AllUploadsPage />} />
             <Route path="/app/account" element={<FoodPartnerAccountPage />} />
             <Route path="/app/preferences" element={<PrefrencesPage />} />
             <Route element={<FoodPartnerChatLayout />}>

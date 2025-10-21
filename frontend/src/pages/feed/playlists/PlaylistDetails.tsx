@@ -31,12 +31,12 @@ const PlaylistDetailsPage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-4 w-full pt-3 md:pt-0 md:px-0 px-4">
+    <div className="flex flex-col gap-4 w-full pt-3 md:pt-0  px-8">
       {data.foodIds.map((food) => (
         <div key={food?._id} className="h-22 flex justify-between">
           <div className="flex gap-4">
             <div className="rounded-lg overflow-hidden w-[120px] bg-secondary">
-              <img src="" alt="" />
+              <img src={food.thumbnailUrl} alt={food.name} className="object-cover w-full h-full" />
             </div>
             <div className="flex flex-col gap-2">
               <h2>{food.name}</h2>
