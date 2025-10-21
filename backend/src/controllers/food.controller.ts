@@ -61,7 +61,7 @@ class FoodController {
 
   getSavedFoods = asyncHandler(
     async (req: Request, res: Response, next: NextFunction) => {
-      const response = foodService.getSavedFoods(req?.user?._id as string);
+      const response = await foodService.getSavedFoods(req?.user?._id as string);
       return res.status(200).json(response);
     }
   );
