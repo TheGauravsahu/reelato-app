@@ -30,7 +30,7 @@ const AppLayout = () => {
           </div>
         </div>
 
-        <div className="w-full h-screen p-6 pt-22 md:pt-4 md:pl-72">
+        <div className="w-full min-h-screen pt-22 md:pt-4 md:pl-72 scroll-hide">
           <LayoutBreadcrumb />
           <Outlet />
         </div>

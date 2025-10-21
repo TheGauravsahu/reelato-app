@@ -34,7 +34,7 @@ const ChatPage = () => {
 
       // When socket authenticates
       socket.on("authenticated", () => {
-        console.log("✅ Socket authenticated");
+        // console.log("✅ Socket authenticated");
 
         // Join chat
         socket.emit("joinChat", chatId);
@@ -65,7 +65,10 @@ const ChatPage = () => {
   }, [chatId, addMessage, connect, user]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const timeout = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+    return () => clearTimeout(timeout);
   }, [messages]);
 
   const handleSend = () => {
@@ -75,11 +78,13 @@ const ChatPage = () => {
     }
   };
 
-  if (isPending) return <Loader />;
+  if (isPending || !user) {
+    return <Loader />;
+  }
 
   return (
-    <div className="h-full w-full">
-      <div className="h-screen md:h-[90%] w-full overflow-y-scroll scroll-hide p-4 space-y-4 flex flex-col  items-end ">
+    <div className="flex flex-col h-[100dvh] w-full  pt-4 pb-12">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-hide  scroll-hide flex flex-col  items-end  ">
         {messages.map((msg) => {
           const isSender = msg.senderId === user?.id;
           return (

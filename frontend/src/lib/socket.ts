@@ -24,7 +24,7 @@ export const connectSocket = async (): Promise<Socket> => {
   });
 
   socketInstance.on("connect", () => {
-    console.log("✅ Socket connected:", socketInstance.id);
+    // console.log("✅ Socket connected:", socketInstance.id);
     socketInstance.emit("authenticate", token);
   });
 

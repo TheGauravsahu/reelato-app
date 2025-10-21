@@ -24,7 +24,7 @@ export const useSocketStore = create<SocketState>((set) => ({
     const socket = await connectSocket();
 
     socket.on("authenticated", (user: SocketUser) => {
-      console.log("✅ Authenticated as:", user);
+      // console.log("✅ Authenticated as:", user);
       set({ user, isConnected: true, socket });
     });
 

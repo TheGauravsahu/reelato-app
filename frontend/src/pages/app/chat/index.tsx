@@ -36,7 +36,7 @@ const FoodPartnerChatPage = () => {
 
       // When socket authenticates
       socket.on("authenticated", () => {
-        console.log("✅ Socket authenticated");
+        // console.log("✅ Socket authenticated");
 
         // Join chat
         socket.emit("joinChat", chatId);
@@ -67,7 +67,10 @@ const FoodPartnerChatPage = () => {
   }, [chatId, addMessage, connect, user]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    const timeout = setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
+    return () => clearTimeout(timeout);
   }, [messages]);
 
   const handleSend = () => {
@@ -77,11 +80,13 @@ const FoodPartnerChatPage = () => {
     }
   };
 
-  if (isPending) return <Loader />;
+  if (isPending || !user) {
+    return <Loader />;
+  }
 
   return (
-    <div className="h-full w-full">
-      <div className="h-[95vh] px-4 md:h-[90%] w-full overflow-y-scroll scroll-hide p-4 space-y-4 flex flex-col  items-end ">
+    <div className="flex flex-col h-[100dvh] w-full pt-4 pb-12 ">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-hide  scroll-hide flex flex-col  items-end ">
         {messages.map((msg) => {
           const isSender = msg.senderId === user?.id;
           return (
@@ -109,7 +114,7 @@ const FoodPartnerChatPage = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="md:px-4 p-3 h-16 flex gap-2 fixed bottom-0 right-0 bg-background z-10 w-full lg:w-[60vw] md:w-[50vw]">
+      <div className="flex items-center gap-2 p-3  bg-background fixed bottom-0 right-0 w-full md:w-[60vw]">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
