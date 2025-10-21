@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Pencil } from "lucide-react";
+import { Pencil, Loader2 } from "lucide-react";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -25,7 +25,6 @@ import LoadingButton from "@/components/general/LoadingButton";
 import { useEditFood, useFoodDetials } from "@/hooks/useFood";
 import { useEffect, useState } from "react";
 import { Progress } from "@/components/ui/progress";
-import Loader from "@/components/general/Loader";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -106,8 +105,8 @@ const EditFood = ({ foodId }: { foodId: string }) => {
                 Edit details of uploaded food reel.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <Loader />
+            <CardContent className="space-y-4 h-[25vh]">
+              <Loader2 className="animate-spin" />
             </CardContent>
             <CardFooter className="flex-col gap-2"></CardFooter>
           </Card>
