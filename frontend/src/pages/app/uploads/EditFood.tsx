@@ -105,7 +105,7 @@ const EditFood = ({ foodId }: { foodId: string }) => {
                 Edit details of uploaded food reel.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4 h-[25vh]">
+            <CardContent className="space-y-4 h-[28vh] flex items-center justify-center">
               <Loader2 className="animate-spin" />
             </CardContent>
             <CardFooter className="flex-col gap-2"></CardFooter>
